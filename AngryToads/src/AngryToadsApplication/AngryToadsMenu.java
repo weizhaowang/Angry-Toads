@@ -85,7 +85,7 @@ public class AngryToadsMenu extends JPanel{
          dbg.drawImage(start.get(buttonscale).getImage(), PREF_WIDTH/2-tx, PREF_HEIGHT/2-ty+20,null);
          dbg.drawImage(exit[buttonscale1].getImage(), 0, PREF_HEIGHT-80-ty1,null);
          dbg.drawImage(cursor.getImage(),(int) cursorpoint.x,(int) cursorpoint.y, 25, 35, this);
-         dbg.drawString("Copyright@", 410, 585);
+         dbg.drawString("Copyright@Angry Toads 2016", 410, 585);
          return true;
   }
 
