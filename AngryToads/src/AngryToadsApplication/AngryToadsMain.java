@@ -45,6 +45,11 @@ public class AngryToadsMain {
 
             Thread switcher=new Thread(pc);
             
+            AngryToadsMusic music = new AngryToadsMusic("music/title_theme.wav");
+            music.setLoop(true);
+            music.setVolume(0.05);
+            music.start();
+            
             switcher.start();
             mainframe.setVisible(true);
         
