@@ -8,6 +8,7 @@ import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,16 +36,19 @@ public class AngryToadsMain {
             AngryToadsPanel game=new AngryToadsPanel();
 
             AngryToadsViewFrame mainframe=new AngryToadsViewFrame(menu,game);
-            //MusicController music=new MusicController();
+
             AngryToadsController tc=new AngryToadsController(ts,game);
             AngryToadsMenuController mc=new AngryToadsMenuController(menu);
             AngryToadsPanelController pc=new AngryToadsPanelController(mainframe.getLayoutpanel(),mc,tc);        
 
-            
             ts.getWorld().setContactListener(tc);
-            //music.start();
 
             Thread switcher=new Thread(pc);
+            
+            AngryToadsMusic music = new AngryToadsMusic("music/title_theme.wav");
+            music.setLoop(true);
+            music.setVolume(0.05);
+            music.start();
             
             switcher.start();
             mainframe.setVisible(true);

@@ -24,7 +24,8 @@ public class AngryToadsMenu extends JPanel{
     ImageIcon cloud=new ImageIcon("src/AngryToadsImagePack/menu/cloud.png");
     ImageIcon cloud1=new ImageIcon("src/AngryToadsImagePack/menu/cloud1.png");
     ImageIcon cloud2=new ImageIcon("src/AngryToadsImagePack/menu/cloud2.png");
-    ImageIcon title=new ImageIcon("");  
+    ImageIcon title=new ImageIcon(""); 
+    AngryToadsMusic Player = new AngryToadsMusic("music/title_theme.wav");
     
     
     public static final int PREF_WIDTH = 1000;
