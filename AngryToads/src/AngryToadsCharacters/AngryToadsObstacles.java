@@ -89,6 +89,12 @@ public class AngryToadsObstacles extends AngryToadsCharacter {
                 obs.m_userData = this.getCharacterinfo();
                 obs.createFixture(characterfixdef);
                 break;
+            case 4:
+                this.getCharacterinfo().setName("pig");
+                obs.m_userData = this.getCharacterinfo();
+                characterfixdef.density = 1.4f;
+                obs.createFixture(characterfixdef);
+                break;
         }
         return obs;
     }
