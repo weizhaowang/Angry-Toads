@@ -39,16 +39,16 @@ public class ToadsLevel extends AngryToadsArea {
 
             pos.set(40 + 2 * i, 1f);
             float dheight = 1.2f;
-            for (int j = 0; j < 6; j++) {
+            for (int j = 0; j < 1; j++) {
                 
                 if (j == 0) {
                     
                     dheight *= 0;
                 }
-                this.oblist.add(ou.createObstacles(sworld, 1, pos.set(pos.x, pos.y + dheight), (float) Math.PI / 2));
+                this.oblist.add(ou.createObstacles(sworld, 4, pos.set(pos.x, pos.y + dheight), (float) Math.PI / 2));
 
                 dheight = 1.2f;
-                this.oblist.add(ou.createObstacles(sworld, 1, pos.set(pos.x, pos.y + dheight), 0));
+                this.oblist.add(ou.createObstacles(sworld, 4, pos.set(pos.x, pos.y + dheight), 0));
 
             }
 

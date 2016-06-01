@@ -47,7 +47,6 @@ public class AngryToadsMain {
             
             AngryToadsMusic music = new AngryToadsMusic("music/title_theme.wav");
             music.setLoop(true);
-            music.setVolume(0.05);
             music.start();
             
             switcher.start();
