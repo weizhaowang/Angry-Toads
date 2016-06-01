@@ -183,14 +183,18 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
     		bodyBIsPig = true;
     	}
     	boolean pigDestroy = false;
-    	for (int i = 0; i < contact.getManifold().pointCount; i++) {
-    		if (impulse.normalImpulses[i] > 10.8) {
-    			pigDestroy = true;
-    			break;
-    		}
+    	if (bodyAIsPig || bodyBIsPig) {
+        	for (int i = 0; i < contact.getManifold().pointCount; i++) {
+        		if (impulse.normalImpulses[i] > 10.8) {
+        			pigDestroy = true;
+        			break;
+        		}
+        	}
     	}
     	ArrayList<Body> pigList = m_stage.getObstacles();
     	if(pigDestroy){
+    		AngryToadsMusic music = new AngryToadsMusic("sfx/piglette destroyed.wav");
+    		music.start();
         	if(bodyAIsPig){
         		if(pigList.contains(bodyA)){
         			pigList.remove(bodyA);
