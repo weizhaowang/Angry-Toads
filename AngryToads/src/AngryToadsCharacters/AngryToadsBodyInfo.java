@@ -1,5 +1,6 @@
 /*
- * Class contains character information;
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
  */
 package AngryToadsCharacters;
 
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 
-public class AngryToadsBodyInfo{
+public class AngryToadsBodyInfo extends Object {
     ImageIcon appearance;
     ArrayList<ImageIcon> touching =new ArrayList<ImageIcon>();
     boolean colliding = false;
@@ -28,35 +29,35 @@ public class AngryToadsBodyInfo{
         health=10.0f;
     }
     
-    public void setAppearance(Image newApp){
-        appearance.setImage(newApp);
+    public void setAppearance(Image newapp){
+        appearance.setImage(newapp);
     }
     
-    public void setName(String newName) {
-        this.name=newName;
+    public void setName(String newname) {
+        this.name=newname;
     }
-    public void setHealth(float newHp) {
-        this.health=newHp;
+    public void setHealth(float newhp) {
+        this.health=newhp;
     }
     
     public Image getAppearance() {
         return appearance.getImage();
     }
 
-    public float getHalfwidth() {
+    public float getHafwidth() {
         return hafwidth;
     }
 
-    public float getHalfheight() {
+    public float getHafheight() {
         return hafheight;
     }
 
-    public void setHalfheight(float hafHeight) {
-        this.hafheight = hafHeight;
+    public void setHafheight(float hafheight) {
+        this.hafheight = hafheight;
     }
 
-    public void setHalfwidth(float halfWidth) {
-        this.hafwidth = halfWidth;
+    public void setHafwidth(float hafwidth) {
+        this.hafwidth = hafwidth;
     }
 
     public String getName() {

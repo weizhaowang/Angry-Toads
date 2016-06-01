@@ -1,18 +1,27 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package AngryToadsApplication;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.World;
 
 /**
- *   This class is for displaying the game screen.
+ *   This class is for display the game screen.
  */
 class AngryToadsPanel extends JPanel {
-	
-    private final AngryToadsDraw myDraw;
-    private  AngryToadsController myController=null;
+    /*
+     * define settings,variables and source Image.
+     */
+    
+    private final AngryToadsDraw sdraw;
+    private  AngryToadsController stc=null;
     
     public static final int PREF_WIDTH = 1200;
     public static final int PREF_HEIGHT = 800;
@@ -22,23 +31,25 @@ class AngryToadsPanel extends JPanel {
     private ImageIcon bg=null;
     private ImageIcon pausebutton=new ImageIcon("src/AngryToadsImagePack/pause.png");
     private ImageIcon resumebutton=new ImageIcon("src/AngryToadsImagePack/resume.png");
-    ImageIcon finger=new ImageIcon("src/AngryToadsImagePack/Finger.png");
+    ImageIcon cursor=new ImageIcon("src/AngryToadsImagePack/Finger.png");
+    
+    private final AffineTransform bgtrans = new AffineTransform();
     
     private boolean dragflag=false,inside1=false,inside2=false;
     private boolean flag=false;
     private int lor,mark;
     private float b1s=1f,b2s=1f;
-    Vec2 fingerpoint=new Vec2();
+    Vec2 cursorpoint=new Vec2();
     AngryToadsPanel() {
         super();
-        myDraw=new AngryToadsDraw(this);
+        sdraw=new AngryToadsDraw(this);
         this.setBackground(null);
         this.setPreferredSize(new Dimension(PREF_WIDTH,PREF_HEIGHT));
         bg=new ImageIcon("src/AngryToadsImagePack/background.jpg");
         
         /*
-         * Add MouseListner for Transforming this viewport,which might 
-         * change viewport scale and display center. 
+         * add MouseListner for Transforming this viewport,which might 
+         * change viewport scale and display center.. 
          * 
          */
         this.addMouseWheelListener(new MouseWheelListener( ){
@@ -47,7 +58,7 @@ class AngryToadsPanel extends JPanel {
             public void mouseWheelMoved(MouseWheelEvent mwe) {
                 
                 int scaletimes=-mwe.getWheelRotation();
-                myDraw.vpt.mouseWheelTransform(mwe.getX(), scaletimes);
+                sdraw.vpt.mouseWheelTransform(mwe.getX(), scaletimes);
              
             }
         });
@@ -57,10 +68,10 @@ class AngryToadsPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(inside1) {
-                    myController.stop=true;
+                    stc.stop=true;
                 }
                 if(inside2) {
-                    myController.stop=false;
+                    stc.stop=false;
                 }
                     
             }
@@ -78,14 +89,14 @@ class AngryToadsPanel extends JPanel {
         this.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent me) {
-                  fingerpoint.set(me.getX(), me.getY());                 
+                  cursorpoint.set(me.getX(), me.getY());                 
                   lor=me.getX();                  
                   if(dragflag) {
                       
                       if(lor-mark>0)
-                        myDraw.vpt.ScrollLeft();
+                        sdraw.vpt.ScrollLeft();
                       if(lor-mark<0)
-                        myDraw.vpt.ScrollRight();
+                        sdraw.vpt.ScrollRight();
                   }
               
             }
@@ -93,7 +104,7 @@ class AngryToadsPanel extends JPanel {
             @Override
             public void mouseMoved(MouseEvent e) {
                  mark=e.getX();
-                 fingerpoint.set(e.getX(), e.getY());
+                 cursorpoint.set(e.getX(), e.getY());
                  if(e.getX()>0&&e.getX()<50*b1s&&e.getY()>0&&e.getY()<50*b1s) {
                                if(!inside1) {
                                   b1s=1.15f;
@@ -130,7 +141,7 @@ class AngryToadsPanel extends JPanel {
     
 
     public AngryToadsDraw getSDDraw() {
-        return myDraw;
+        return sdraw;
     }
     
     public Graphics2D getDBDraw(){
@@ -157,14 +168,14 @@ class AngryToadsPanel extends JPanel {
        dbg = (Graphics2D) dbImage.getGraphics();
      }
        dbg.setColor(null);
-       int width=0;
-       int btx=(int)(bg.getImage().getWidth(this) *myDraw.vpt.bgscale)-bg.getImage().getWidth(this);
-       int bty=(int)(bg.getImage().getHeight(this) *myDraw.vpt.bgscale)-bg.getImage().getHeight(this);
+       int width=0;int bgheight=0;
+       int btx=(int)(bg.getImage().getWidth(this) *sdraw.vpt.bgscale)-bg.getImage().getWidth(this);
+       int bty=(int)(bg.getImage().getHeight(this) *sdraw.vpt.bgscale)-bg.getImage().getHeight(this);
        
        //draw sky.
        for(int i=0;i<=1;i++) {
-        dbg.drawImage(bg.getImage(),width-btx,0-bty,(int)(bg.getImage().getWidth(this) *myDraw.vpt.bgscale),(int)(bg.getImage().getHeight(this) *myDraw.vpt.bgscale)+130,null); 
-        width=(int)(bg.getImage().getWidth(this) *myDraw.vpt.bgscale);
+        dbg.drawImage(bg.getImage(),width-btx,0-bty,(int)(bg.getImage().getWidth(this) *sdraw.vpt.bgscale),(int)(bg.getImage().getHeight(this) *sdraw.vpt.bgscale)+130,null); 
+        width=(int)(bg.getImage().getWidth(this) *sdraw.vpt.bgscale);
         }    
        
         
@@ -181,19 +192,19 @@ class AngryToadsPanel extends JPanel {
         Graphics2D g=(Graphics2D) this.getGraphics();
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING , RenderingHints.VALUE_ANTIALIAS_ON);
         if(g!=null&&dbImage!=null) {
-	        g.drawImage(dbImage, 0, 0, null);
-	        Toolkit.getDefaultToolkit().sync();
-	        g.dispose();
-        }
+        g.drawImage(dbImage, 0, 0, null);
+        Toolkit.getDefaultToolkit().sync();
+        g.dispose();
+    }
     }
     
     public void setStageController(AngryToadsController st) {
-        myController=st;
+        stc=st;
     }
     public void drawCursor(Graphics2D g) {
        // if(cursorpoint.lengthSquared()=0)
      //   g.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_SPEED);
-        g.drawImage(finger.getImage(),(int) fingerpoint.x,(int) fingerpoint.y, 25, 35, this);
+        g.drawImage(cursor.getImage(),(int) cursorpoint.x,(int) cursorpoint.y, 25, 35, this);
     }
     
     public boolean isPainting() {
