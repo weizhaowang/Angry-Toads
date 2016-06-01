@@ -185,9 +185,9 @@ Vec2 temp = new Vec2();
         if(this.getGraphics()!= null&& !contactpoint.isEmpty()) {
             temp = contactpoint.pop();
         System.out.print("Contact point have " + contactpoint.size()+"\n");    
-        Graphics2D pen = this.getGraphics();
-        System.out.print("contact is at "+temp.x+"\n");
-        pen.drawString("Now You Are Seeing the Contact", 300,200);
+//        Graphics2D pen = this.getGraphics();
+//        System.out.print("contact is at "+temp.x+"\n");
+//        pen.drawString("Now You Are Seeing the Contact", 300,200);
         }
         
     }
