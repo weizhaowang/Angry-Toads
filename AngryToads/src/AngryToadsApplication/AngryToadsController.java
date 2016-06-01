@@ -9,14 +9,18 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jbox2d.callbacks.ContactImpulse;
 import org.jbox2d.callbacks.ContactListener;
 import org.jbox2d.collision.Manifold;
 import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.contacts.Contact;
+
+import AngryToadsCharacters.AngryToadsBodyInfo;
 
 public class AngryToadsController extends MouseAdapter implements Runnable, MouseMotionListener, ContactListener {
 
@@ -144,6 +148,7 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
         });
     }
 
+    
     @Override
     public synchronized void beginContact(Contact contact) {
                
@@ -153,6 +158,7 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
 
     @Override
     public void endContact(Contact contact) {
+
     }
 
     @Override
@@ -163,20 +169,57 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
     Fixture fix ;
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
+    	
+    	boolean bodyAIsPig = false;
+        boolean bodyBIsPig = false;
+    	Body bodyA = contact.m_fixtureA.getBody();
+    	Body bodyB = contact.m_fixtureB.getBody();
+    	String nameA = ((AngryToadsBodyInfo)(bodyA.m_userData)).getName();
+    	String nameB = ((AngryToadsBodyInfo)(bodyB.m_userData)).getName();
+    	if(nameA.equals("pig")){
+    		bodyAIsPig = true;
+    	}
+    	if(nameB.equals("pig")){
+    		bodyBIsPig = true;
+    	}
+    	boolean pigDestroy = false;
+    	for (int i = 0; i < contact.getManifold().pointCount; i++) {
+    		if (impulse.normalImpulses[i] > 10.8) {
+    			pigDestroy = true;
+    			break;
+    		}
+    	}
+    	ArrayList<Body> pigList = m_stage.getObstacles();
+    	if(pigDestroy){
+        	if(bodyAIsPig){
+        		if(pigList.contains(bodyA)){
+        			pigList.remove(bodyA);
+        		}
+        		bodyA.setActive(false);
+        		m_stage.getWorld().destroyBody(bodyA);
+        	}
+        	if(bodyBIsPig){
+        		if(pigList.contains(bodyB)){
+        			pigList.remove(bodyB);
+        		}
+        		bodyB.setActive(false);
+        		m_stage.getWorld().destroyBody(bodyB);
+        	}
+    	}
 
        if (contact.m_fixtureA.m_filter.groupIndex == -1 || contact.m_fixtureB.m_filter.groupIndex == -1) {
-                      fix = contact.m_fixtureA.m_filter.groupIndex == -1?contact.m_fixtureA:contact.m_fixtureB;
-                      
-            for (int i = 0; i < contact.getManifold().pointCount; i++) {
+    	   fix = contact.m_fixtureA.m_filter.groupIndex == -1?contact.m_fixtureA:contact.m_fixtureB;
 
-                if (impulse.normalImpulses[i] > 0.8) {
-                    System.out.print("pushing point \n");
-                    drawer.pushContactPoint(fix.m_body.getPosition());
-                    /*try {
+    	   for (int i = 0; i < contact.getManifold().pointCount; i++) {
+
+    		   if (impulse.normalImpulses[i] > 0.8) {
+    			   System.out.print("pushing point \n");
+    			   drawer.pushContactPoint(fix.m_body.getPosition());
+    			   /*try {
                         //music.birdScream();
                     } catch (IOException ex) {                    }*/
-                }
-            }
+    		   }
+    	   }
         }
         if (contact.m_fixtureA.m_filter.groupIndex == 1 || contact.m_fixtureB.m_filter.groupIndex == 1) {
                 // System.out.print(" impulse point count  : "+impulse.normalImpulses.length+"\n");
