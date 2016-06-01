@@ -20,6 +20,7 @@ public class AngryToadsObstacles extends AngryToadsCharacter {
 	ImageIcon box = new ImageIcon();
 	float halfWidth, halfHeight, health,angle;
 
+<<<<<<< HEAD
 	public AngryToadsObstacles() {
 		super();
 		super.setCharactershape(obsShape);
@@ -71,4 +72,58 @@ public class AngryToadsObstacles extends AngryToadsCharacter {
 		}
 		return obs;
 	}
+=======
+    public Body createObstacles(World mom, int type, Vec2 pos, float angle) {
+        this.getCharacterdef().position.set(pos);
+        characterdef.angle = angle;
+        Body obs = mom.createBody(characterdef);
+        switch (type) {
+            case 1:
+                this.getCharacterinfo().setName("Wood Stick");
+                obs.m_userData = this.getCharacterinfo();
+                characterfixdef.density = 1.4f;
+                obs.createFixture(characterfixdef);
+                break;
+            case 2:
+                hafwidth = 1f;
+                hafheight = 1f;
+                obsshape.setAsBox(hafwidth, hafwidth);
+                this.getCharacterfixdef().shape = obsshape;
+                this.getCharacterinfo().setName("stone");
+                this.getCharacterinfo().setHafheight(hafheight);
+                this.getCharacterinfo().setHafwidth(hafwidth);
+                this.getCharacterinfo().setAppearance(stone.getImage());
+                this.getCharacterfixdef().userData = this.getCharacterinfo();
+                this.getCharacterfixdef().density = 2f;
+                this.getCharacterfixdef().restitution = 0.01f;
+                this.getCharacterfixdef().friction = 0.5f;
+                obs.m_userData = this.getCharacterinfo();
+                obs.createFixture(characterfixdef);
+                break;
+            case 3:
+                hafwidth = 0.8f;
+                hafheight = 0.8f;
+                obsshape.setAsBox(hafwidth, hafwidth);
+                this.getCharacterfixdef().shape = obsshape;
+                this.getCharacterinfo().setName("box");
+                this.getCharacterinfo().setHafheight(hafheight);
+                this.getCharacterinfo().setHafwidth(hafwidth);
+                this.getCharacterinfo().setAppearance(box.getImage());
+                this.getCharacterfixdef().userData = this.getCharacterinfo();
+                this.getCharacterfixdef().density = 1.3f;
+                this.getCharacterfixdef().restitution = 0.3f;
+                this.getCharacterfixdef().friction = 0.3f;
+                obs.m_userData = this.getCharacterinfo();
+                obs.createFixture(characterfixdef);
+                break;
+            case 4:
+                this.getCharacterinfo().setName("pig");
+                obs.m_userData = this.getCharacterinfo();
+                characterfixdef.density = 1.4f;
+                obs.createFixture(characterfixdef);
+                break;
+        }
+        return obs;
+    }
+>>>>>>> origin/master
 }
