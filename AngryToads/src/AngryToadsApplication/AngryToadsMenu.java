@@ -1,14 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package AngryToadsApplication;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 import org.jbox2d.common.Vec2;
 
@@ -39,12 +32,10 @@ public class AngryToadsMenu extends JPanel{
     boolean flag=false;
     Graphics2D dbg;
     Image dbImage;
-    ImageIcon cursor=new ImageIcon("src/AngryToadsImagePack/Finger.png");
+    ImageIcon finger=new ImageIcon("src/AngryToadsImagePack/Finger.png");
     CardLayout layoutmanager=new CardLayout();
-    Vec2 cursorpoint=new Vec2();
-    RenderingHints rh = new RenderingHints(
-             RenderingHints.KEY_RENDERING,
-             RenderingHints.VALUE_RENDER_DEFAULT);
+    Vec2 fingerPoint=new Vec2();
+    RenderingHints rh = new RenderingHints(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_DEFAULT);
 
     AngryToadsMenu() {
         super();
@@ -85,7 +76,7 @@ public class AngryToadsMenu extends JPanel{
          dbg.drawImage(title.getImage(), PREF_WIDTH/2-title.getImage().getWidth(null)/2, 30, this);
          dbg.drawImage(start.get(buttonscale).getImage(), PREF_WIDTH/2-tx, PREF_HEIGHT/2-ty+20,null);
          dbg.drawImage(exit[buttonscale1].getImage(), 0, PREF_HEIGHT-80-ty1,null);
-         dbg.drawImage(cursor.getImage(),(int) cursorpoint.x,(int) cursorpoint.y, 25, 35, this);
+         dbg.drawImage(finger.getImage(),(int) fingerPoint.x,(int) fingerPoint.y, 25, 35, this);
          dbg.drawString("Copyright@Angry Toads 2016", 410, 585);
          return true;
   }
@@ -133,10 +124,10 @@ public class AngryToadsMenu extends JPanel{
         this.addMouseMotionListener(mc);
     }
     }
- class GameButton extends JComponent {
+ 	class GameButton extends JComponent {
      ImageIcon bi;
      GameButton (ImageIcon i) {
-     }
+    }
 
 }    
     
