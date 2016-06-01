@@ -7,6 +7,7 @@ import javax.media.*;
  * 调用方法:<br />
  * AngryToadsMusic music = new AngryToadsMusic("music/title_theme.wav");<br />
  * music.setLoop(true);<br />
+ * music.setVolume(0.25);<br />
  * music.start();<br />
  * ...<br />
  * music.stop();
@@ -24,6 +25,9 @@ public class AngryToadsMusic implements ControllerListener {
 
     // 标示是否需要循环
     private boolean loop = false;
+    
+    // 音量
+    private float volume = (float)1.0;
     
     // 构造方法
     public AngryToadsMusic(String fileName) {
@@ -43,6 +47,7 @@ public class AngryToadsMusic implements ControllerListener {
            return;
         }
         if (e instanceof PrefetchCompleteEvent) {
+        	player.getGainControl().setLevel(volume);
             player.start();
             return;
         }
@@ -70,6 +75,10 @@ public class AngryToadsMusic implements ControllerListener {
 	public void stop() {
 		 player.stop();
 		 player.close();
+	} 
+	
+	public void setVolume(double newVolume) {
+		volume = (float)newVolume;
 	}
 
 	// 处理“循环”
