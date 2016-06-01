@@ -1,55 +1,49 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package AngryToadsApplication;
 
 import java.awt.geom.AffineTransform;
-import org.jbox2d.common.Mat22;
 import org.jbox2d.common.OBBViewportTransform;
 import org.jbox2d.common.Transform;
 import org.jbox2d.common.Vec2;
 
 /**
  * This class provide Rotation and Translation Position that used for rendering game.
- *
  */
 public class AngryToadsViewportTransform {
-    Transform postrans=new Transform();
-    OBBViewportTransform vpt=new OBBViewportTransform();
-    float scale=18.0f;
+    Transform pTrans=new Transform();
+    OBBViewportTransform vTrans=new OBBViewportTransform();
+    float scale=20.0f;
     Vec2 center=new Vec2();
     Vec2 offset=new Vec2();
-    public  float bgscale=1f;
+    public float bgscale=1f;
     int btx=0,bty=0;
     
     AngryToadsViewportTransform(AngryToadsPanel v) {
-        vpt.setYFlip(true);
-        vpt.setExtents(v.getWidth()/2,v.getHeight()/2);
+        vTrans.setYFlip(true);
+        vTrans.setExtents(v.getWidth()/2,v.getHeight()/2);
         center.set(v.getWidth()/2,v.getHeight()/2+170f);
         offset.set(-v.getWidth()/2,170f);
     }
-    public void getWorldtoScreen(Vec2 worldpos,Vec2 out) {
-        worldpos.x=(worldpos.x)*scale;
-        worldpos.y=worldpos.y*scale;
-        vpt.getWorldToScreen(worldpos, out);
+    
+    //Transform world position to view position
+    public void getWorldtoScreen(Vec2 worldPos,Vec2 out) {
+        worldPos.x=(worldPos.x)*scale;
+        worldPos.y=worldPos.y*scale;
+        vTrans.getWorldToScreen(worldPos, out);
         out.addLocal(offset);
     }
-    
-    public void getScreentoWorld(Vec2 screenpos,Vec2 worldpos) {
-        screenpos.subLocal(offset);
+    //Transform view position to world position
+    public void getScreentoWorld(Vec2 screenPos,Vec2 worldpos) {
+        screenPos.subLocal(offset);
 
-        vpt.getScreenToWorld(screenpos, worldpos);     
+        vTrans.getScreenToWorld(screenPos, worldpos);     
         
-        screenpos.x=screenpos.x/scale;
-        screenpos.y=screenpos.y/scale;
+        screenPos.x=screenPos.x/scale;
+        screenPos.y=screenPos.y/scale;
     }
     
     public AffineTransform rotatePoint(AffineTransform dtrans,float angle,Vec2 anchorp) {
-
-                       //Create AffineTransform Instance
-        dtrans.rotate(angle,anchorp.x,anchorp.y);                   //Rotate Round the Anchorpoint.
-        
+    	//Rotate Round the anchor point.
+        dtrans.rotate(angle,anchorp.x,anchorp.y);                  
         return dtrans;
     }
     public void setZoomCenter(int xpos) {
@@ -64,28 +58,27 @@ public class AngryToadsViewportTransform {
     
     public void mouseWheelTransform(int xoffset,int scaletimes){   
         if(scale <25&&scaletimes>0) {
-        scale=scale+scaletimes*2;
-        offset.y+=2;
-        bgscale+=0.01f;
+	        scale=scale+scaletimes*2;
+	        offset.y+=2;
+	        bgscale+=0.01f;
         }
         if(scale>18&&scaletimes<0) {
             scale=scale+scaletimes*2;
             offset.y-=2;
             bgscale-=0.01f;     
         }
-        
     }
     
     public void ScrollLeft() {
         if(offset.x<-512)
-        offset.x+=7;
+        	offset.x+=7;
     } 
     
     public void ScrollRight() {
         //if(offset.x>-950)
         {
             if(offset.x>-700)
-              offset.x-=7;
+            	offset.x-=7;
             if(offset.x>-800)
                 offset.x-=5;
             if(offset.x<-1000)

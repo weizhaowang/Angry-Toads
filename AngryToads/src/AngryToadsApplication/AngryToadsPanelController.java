@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package AngryToadsApplication;
 
 import java.awt.CardLayout;
@@ -15,92 +11,83 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+public class AngryToadsPanelController extends ComponentAdapter implements Runnable {
+	AngryToadsMenuController menuController;
+	AngryToadsController controller;
+	JPanel showPanel;
+	CardLayout layout;
 
+	int mainthread = 0;
 
-public class AngryToadsPanelController extends ComponentAdapter implements Runnable{
-    AngryToadsMenuController m;
-    AngryToadsController s;
-    JPanel showpanel;
-    CardLayout layout;
-    
-    int mainthread=0;
-    
-    AngryToadsPanelController(JPanel show,AngryToadsMenuController mc,AngryToadsController st) {
-        m=mc;
-        s=st;
-        showpanel=show;
-        layout=(CardLayout) show.getLayout();
-        
-    }
+	AngryToadsPanelController(JPanel show, AngryToadsMenuController mc, AngryToadsController ct) {
+		menuController = mc;
+		controller = ct;
+		showPanel = show;
+		layout = (CardLayout) show.getLayout();
 
-    @Override
-  synchronized public void run() {
-        whoShow();
-        while(true) {
-            whoShow();
-         //   System.out.print("who's running "+mainthread+"and stop is "+m.stop+" and the k is "+m.k+"\n");
-            switch(mainthread) {
-                
-                case 0:
-                    displayMenu();break;
-                case 1:
-                    displayGame();break;
-                    
-            }
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(AngryToadsPanelController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-    
-  synchronized public void whoShow() {
-      
-      //initiallize menupanel.
-        if(m.menuthread==null&&s.gamethread==null) {
-         //   System.out.print("menu initiallize !!!! \n");
-            mainthread=0;
-        }
-      //initiallize gamepanel..
-        if(m.menuthread!=null)
-        if(m.stop&&m.menuthread.isAlive()&&s.gamethread==null) {
-         //   System.out.print("game initiallize !!!! \n");
-            mainthread=1;
-        }
-       
-      // switch between menu and game.
-        if(m.menuthread!=null&&s.gamethread!=null) {
-        if(!m.menuthread.isAlive()&&!s.gamethread.isAlive()) {
-         //   System.out.print("menu resume !!!! \n");
-            mainthread=0;
-        }
-        if(m.menuthread.isAlive()&&s.gamethread.isAlive())  {
-           // System.out.print("game  resume !!!! \n");
-            mainthread=1;
-        }
-        }
-    }
-    
-    public void displayMenu() {
-        if(m.menuthread==null) {
-            m.start();
-            layout.show(showpanel, "menu");
-         }
-        else if(!m.isPainting()){                                  
-            m.resume();
-            layout.show(showpanel, "menu");
-        }
-    }
-    
-    public void displayGame() {
-        if(s.gamethread==null) {
-        s.start();
-        layout.show(showpanel, "game");
-        }
-        else {
-            s.resume();
-            layout.show(showpanel, "game");
-        }
-    }
+	}
+
+	@Override
+	synchronized public void run() {
+		whoShow();
+		while (true) {
+			whoShow();
+			switch (mainthread) {
+
+			case 0:
+				displayMenu();
+				break;
+			case 1:
+				displayGame();
+				break;
+
+			}
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException ex) {
+				Logger.getLogger(AngryToadsPanelController.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+	}
+
+	synchronized public void whoShow() {
+
+		if (menuController.menuThread == null && controller.gamethread == null) {
+			mainthread = 0;
+		}
+
+		if (menuController.menuThread != null)
+			if (menuController.stop && menuController.menuThread.isAlive() && controller.gamethread == null) {
+				mainthread = 1;
+			}
+
+		if (menuController.menuThread != null && controller.gamethread != null) {
+			if (!menuController.menuThread.isAlive() && !controller.gamethread.isAlive()) {
+				mainthread = 0;
+			}
+			if (menuController.menuThread.isAlive() && controller.gamethread.isAlive()) {
+				mainthread = 1;
+			}
+		}
+	}
+
+	public void displayMenu() {
+		if (menuController.menuThread == null) {
+			menuController.start();
+			layout.show(showPanel, "menu");
+		} else if (!menuController.isPainting()) {
+			menuController.resume();
+			layout.show(showPanel, "menu");
+		}
+	}
+
+	public void displayGame() {
+		if (controller.gamethread == null) {
+			controller.start();
+			layout.show(showPanel, "game");
+		} else {
+			controller.resume();
+			layout.show(showPanel, "game");
+		}
+	}
 }
