@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package AngryToadsApplication;
 
 import java.awt.*;
@@ -19,8 +15,10 @@ public class AngryToadsViewFrame extends JFrame{
     public int PREF_HEIGHT=620;
     private JPanel layoutpanel;
     private CardLayout layout=new CardLayout();
-    private final AngryToadsMenu themenu;
-    private final AngryToadsPanel thegame;
+    @SuppressWarnings("unused")
+	private final AngryToadsMenu themenu;
+    @SuppressWarnings("unused")
+	private final AngryToadsPanel thegame;
     int[] pixels = new int[16 * 16];
 
     AngryToadsViewFrame(AngryToadsMenu menu,AngryToadsPanel game){
