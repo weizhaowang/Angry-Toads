@@ -1,3 +1,7 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package AngryToadsCharacters;
 
 import javax.swing.ImageIcon;
@@ -5,31 +9,30 @@ import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
-import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
 
 public class AngryToadsSling {
-        static PolygonShape slingShape=new PolygonShape();
+        static PolygonShape slingshape=new PolygonShape();
         static BodyDef sd=new BodyDef();
         static AngryToadsBodyInfo si=new AngryToadsBodyInfo();
         static FixtureDef sf=new FixtureDef();
-        static ImageIcon slingImage=new ImageIcon("src/AngryToadsImagePack/slingstick.png");
+        static ImageIcon slingimage=new ImageIcon("src/AngryToadsImagePack/slingstick.png");
     
     static public Body createStick(World mom,Vec2 pos) {
-        slingShape.setAsBox(0.5f, 2.7f);
-        sd.type=BodyType.STATIC;
+        slingshape.setAsBox(0.5f, 2.7f);
+        sd.type=sd.type.STATIC;
         sd.position=pos;
-        si.setName("stick");si.setHalfwidth(0.8f);si.setHalfheight(2.7f);si.setAppearance(slingImage.getImage());
+        si.setName("stick");si.setHafwidth(0.8f);si.setHafheight(2.7f);si.setAppearance(slingimage.getImage());
         sd.userData=si;
-        sf.shape=slingShape;
+        sf.shape=slingshape;
         sf.density=1f;
         Body stick=mom.createBody(sd);
-        slingShape.setAsBox(0.5f,0.1f);
+        slingshape.setAsBox(0.5f,0.1f);
         pos.y=pos.y+1.2f;
         Body plat=mom.createBody(sd);
-        plat.createFixture(slingShape,1);
+        plat.createFixture(slingshape,1);
         stick.createFixture(sf);
         return stick;
     }
