@@ -36,12 +36,12 @@ public class AngryToadsPanelController extends ComponentAdapter implements Runna
 			whoShow();
 			switch (mainthread) {
 
-			case 0:
-				displayMenu();
-				break;
-			case 1:
-				displayGame();
-				break;
+				case 0:
+					displayMenu();
+					break;
+				case 1:
+					displayGame();
+					break;
 
 			}
 			try {
@@ -76,7 +76,7 @@ public class AngryToadsPanelController extends ComponentAdapter implements Runna
 	public void displayMenu() {
 		music.setFile("music/title_theme.wav");
 		music.start();
-		
+
 		if (menuController.menuThread == null) {
 			menuController.start();
 			layout.show(showPanel, "menu");
@@ -89,7 +89,7 @@ public class AngryToadsPanelController extends ComponentAdapter implements Runna
 	public void displayGame() {
 		music.setFile("music/ambient_red_savannah.wav");
 		music.start();
-		
+
 		if (controller.gamethread == null) {
 			controller.start();
 			layout.show(showPanel, "game");

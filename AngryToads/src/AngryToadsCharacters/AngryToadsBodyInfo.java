@@ -16,7 +16,7 @@ public class AngryToadsBodyInfo{
     String name;
     float hafwidth=0;
     float hafheight=0;
-    
+
     AngryToadsBodyInfo(String image,float hp,String name) {
         appearance=new ImageIcon(image);
         health=hp;
@@ -27,18 +27,18 @@ public class AngryToadsBodyInfo{
         this.name="unknown";
         health=10.0f;
     }
-    
+
     public void setAppearance(Image newApp){
         appearance.setImage(newApp);
     }
-    
+
     public void setName(String newName) {
         this.name=newName;
     }
     public void setHealth(float newHp) {
         this.health=newHp;
     }
-    
+
     public Image getAppearance() {
         return appearance.getImage();
     }
@@ -62,5 +62,5 @@ public class AngryToadsBodyInfo{
     public String getName() {
         return name;
     }
-    
+
 }

@@ -16,14 +16,14 @@ public class AngryToadsViewportTransform {
     Vec2 offset=new Vec2();
     public float bgscale=1f;
     int btx=0,bty=0;
-    
+
     AngryToadsViewportTransform(AngryToadsPanel v) {
         vTrans.setYFlip(true);
         vTrans.setExtents(v.getWidth()/2,v.getHeight()/2);
         center.set(v.getWidth()/2,v.getHeight()/2+170f);
         offset.set(-v.getWidth()/2,170f);
     }
-    
+
     //Transform world position to view position
     public void getWorldtoScreen(Vec2 worldPos,Vec2 out) {
         worldPos.x=(worldPos.x)*scale;
@@ -35,55 +35,55 @@ public class AngryToadsViewportTransform {
     public void getScreentoWorld(Vec2 screenPos,Vec2 worldpos) {
         screenPos.subLocal(offset);
 
-        vTrans.getScreenToWorld(screenPos, worldpos);     
-        
+        vTrans.getScreenToWorld(screenPos, worldpos);
+
         screenPos.x=screenPos.x/scale;
         screenPos.y=screenPos.y/scale;
     }
-    
+
     public AffineTransform rotatePoint(AffineTransform dtrans,float angle,Vec2 anchorp) {
-    	//Rotate Round the anchor point.
-        dtrans.rotate(angle,anchorp.x,anchorp.y);                  
+        //Rotate Round the anchor point.
+        dtrans.rotate(angle,anchorp.x,anchorp.y);
         return dtrans;
     }
     public void setZoomCenter(int xpos) {
         this.center.x=xpos;
-        
+
     }
-    
+
     public Vec2 getOffset(int xpos,int scale) {
-           offset.x=offset.x+xpos;
-           return offset;
+        offset.x=offset.x+xpos;
+        return offset;
     }
-    
-    public void mouseWheelTransform(int xoffset,int scaletimes){   
+
+    public void mouseWheelTransform(int xoffset,int scaletimes){
         if(scale <25&&scaletimes>0) {
-	        scale=scale+scaletimes*2;
-	        offset.y+=2;
-	        bgscale+=0.01f;
+            scale=scale+scaletimes*2;
+            offset.y+=2;
+            bgscale+=0.01f;
         }
         if(scale>18&&scaletimes<0) {
             scale=scale+scaletimes*2;
             offset.y-=2;
-            bgscale-=0.01f;     
+            bgscale-=0.01f;
         }
     }
-    
+
     public void ScrollLeft() {
         if(offset.x<-512)
-        	offset.x+=7;
-    } 
-    
+            offset.x+=7;
+    }
+
     public void ScrollRight() {
         //if(offset.x>-950)
         {
             if(offset.x>-700)
-            	offset.x-=7;
+                offset.x-=7;
             if(offset.x>-800)
                 offset.x-=5;
             if(offset.x<-1000)
                 offset.x-=3;
         }
-            
+
     }
 }
