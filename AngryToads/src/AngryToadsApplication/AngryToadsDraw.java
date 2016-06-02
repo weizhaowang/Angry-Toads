@@ -21,6 +21,7 @@ import org.jbox2d.dynamics.contacts.Contact;
 
 import AngryToadsCharacters.AngryToadsBodyInfo;
 
+
 public class AngryToadsDraw  {
 
     AngryToadsPanel viewport;
@@ -97,15 +98,15 @@ public class AngryToadsDraw  {
                     angle = -tempbody.getAngle();
                     dpos = tempbody.getPosition().clone();
                     cpos = tempbody.getPosition().clone();
-                    dpos.x = dpos.x - ((AngryToadsBodyInfo) tempbody.getUserData()).getHafwidth();
-                    dpos.y = dpos.y + ((AngryToadsBodyInfo) tempbody.getUserData()).getHafheight();
+                    dpos.x = dpos.x - ((AngryToadsBodyInfo) tempbody.getUserData()).getHalfwidth();
+                    dpos.y = dpos.y + ((AngryToadsBodyInfo) tempbody.getUserData()).getHalfheight();
 
                     this.getPosToDraw(dpos, dpos);
                     this.getPosToDraw(cpos, cpos);
 
                     tempinfo = (AngryToadsBodyInfo) tempbody.getUserData();
-                    height = (int) (tempinfo.getHafheight() * 2 * vpt.scale);
-                    width = (int) (tempinfo.getHafwidth() * 2 * vpt.scale);
+                    height = (int) (tempinfo.getHalfheight() * 2 * vpt.scale);
+                    width = (int) (tempinfo.getHalfwidth() * 2 * vpt.scale);
 
                     if (angle != 0) {
 
@@ -162,7 +163,7 @@ public class AngryToadsDraw  {
         pen.setStroke(rubberStroke);
         pen.setColor(new Color(48, 23, 8));
 
-        slingAnchor1 = stagetodraw.getBirds().get(stagetodraw.birdbullets).getPosition().clone();
+        slingAnchor1 = stagetodraw.getBirds().get(stagetodraw.toadBullets).getPosition().clone();
 
         slingpos = stagetodraw.slingAnchor.clone();
         slingpos.y += 0.5;
