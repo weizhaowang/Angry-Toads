@@ -25,14 +25,27 @@ public class AngryToadsMusic implements ControllerListener {
     // 标示是否需要循环
     private boolean loop = false;
     
+    // 标示是否需要重新开始播放
+    private boolean restart = false;
+    
     // 构造方法
+    public AngryToadsMusic() {
+    	super();
+    }
+    
     public AngryToadsMusic(String fileName) {
     	super();
     	setFile(fileName);
     }
     
     public void setFile(String fileName) {
-    	file = new File("src/AngryToadsMusic/" + fileName);
+    	File newFile = new File("src/AngryToadsMusic/" + fileName);
+    	if (file == null || !(file.getPath().equals(newFile.getPath()))) {
+    		restart = true;
+    		file = newFile;
+    	}else {
+    		restart = false;
+    	}
     }
     
     public void controllerUpdate(ControllerEvent e) {  
@@ -49,6 +62,13 @@ public class AngryToadsMusic implements ControllerListener {
     }
     
     public void start() { 
+    	if (restart) {
+    		if (player != null) {
+    			stop();
+    		}
+    	}else {
+    		return;
+    	}
     	try {
             // 创建一个打开选择文件的播放器
             player = Manager.createPlayer(file.toURI().toURL());
@@ -72,7 +92,7 @@ public class AngryToadsMusic implements ControllerListener {
 		 player.close();
 	}
 
-	// 处理“循环”
+	// 处理循环
 	public void setLoop(boolean newLoop) {
 	    loop = newLoop;
 	}

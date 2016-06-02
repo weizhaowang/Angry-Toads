@@ -9,7 +9,7 @@ import org.jbox2d.dynamics.World;
 
 public class AngryToadsEnemy extends AngryToadsCharacter {
 	CircleShape enemyShape=new CircleShape();
-	ImageIcon pig0 = new ImageIcon("src/AngryToadsImagePack/pigs.png");
+	ImageIcon pig0 = new ImageIcon("src/AngryToadsImagePack/AngryToad.png");
 	ImageIcon pig1 = new ImageIcon();
 	
 	public AngryToadsEnemy() {

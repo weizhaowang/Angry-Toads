@@ -39,10 +39,10 @@ public class ToadsLevel extends AngryToadsArea {
 		Vec2 pos = new Vec2();
 		for (int i = 0; i < 3; i++) {
 			pos.set(2 + i / 2, 3f);
-			this.toadList.add(nModel.createBody(this.sworld, 0, pos));
+			this.birdList.add(nModel.createBody(this.sworld, 1, pos));
 		}
 		pos.set(40f, 7.4f);
-		this.piglist.add(nEnemy.createEnemy(this.sworld, 0, pos));
+		this.toadList.add(nEnemy.createEnemy(this.sworld, 0, pos));
 
 		pos.set(38f,4f);
 		this.obList.add(nObs.createObstacles(this.sworld, 0, pos.set(pos.x, pos.y), 2f, 0.3f,
@@ -58,11 +58,11 @@ public class ToadsLevel extends AngryToadsArea {
 		slingAnchor.set(pos);
 
 		wd.bodyA = this.ground;
-		wd.bodyB = toadList.get(0);
+		wd.bodyB = birdList.get(0);
 		wd.localAnchorA.set(pos.sub(this.ground.getPosition()));
 		attachDef = wd;
 		attach = (WeldJoint) sworld.createJoint(wd);
-		toadList.get(0).setTransform(pos, 0);
+		birdList.get(0).setTransform(pos, 0);
 
 	}
 
