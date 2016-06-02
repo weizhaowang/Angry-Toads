@@ -1,48 +1,42 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Class to define the template;
  */
 package AngryToadsCharacters;
 
-import javax.swing.ImageIcon;
-import org.jbox2d.collision.shapes.CircleShape;
-import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.collision.shapes.Shape;
 import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
-import org.jbox2d.dynamics.Fixture;
+import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 
 
- abstract public  class AngryToadsCharacter {
+abstract public class AngryToadsCharacter {
     
-    public BodyDef characterdef=new BodyDef();
+    public BodyDef characterDef=new BodyDef();
     public FixtureDef characterfixdef=new FixtureDef();
-    public Shape charactershape;
+    public Shape characterShape;
     public AngryToadsBodyInfo characterinfo=new AngryToadsBodyInfo();
     
-     AngryToadsCharacter() {
-        characterdef.bullet=false;
-        characterdef.type=characterdef.type.DYNAMIC;
-        characterdef.allowSleep=true;
-        characterfixdef.friction=0.8f;
+    AngryToadsCharacter() {
+        characterDef.bullet=false;
+        characterDef.type=BodyType.DYNAMIC;
+        characterDef.allowSleep=false;
+        
+        characterfixdef.friction=0.9f;
         characterfixdef.density=1f;
-        characterfixdef.restitution=.4f;
-        
-        
+        characterfixdef.restitution=0.5f;
     }
     
     
     public void setPosition(Vec2 worldpos) {
-        characterdef.position.set(worldpos);
+        characterDef.position.set(worldpos);
     }
 
     public void setCharactershape(Shape charactershape) {
          this.characterfixdef.shape=charactershape;
     }
     public void setCharacterdef(BodyDef characterdef) {
-        this.characterdef=characterdef;
+        this.characterDef=characterdef;
     }
     public void setCharacterfixturedef(FixtureDef characterfix) {
         this.characterfixdef=characterfix;
@@ -54,7 +48,7 @@ import org.jbox2d.dynamics.FixtureDef;
     }
 
     public BodyDef getCharacterdef() {
-        return characterdef;
+        return characterDef;
     }
 
     public FixtureDef getCharacterfixdef() {
