@@ -191,20 +191,19 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
         		}
         	}
     	}
-    	ArrayList<Body> pigList = m_stage.getPigs();
+    	ArrayList<Body> toadList = m_stage.getPigs();
     	if(pigDestroy){
-    		AngryToadsMusic music = new AngryToadsMusic("sfx/piglette destroyed.wav");
-    		music.start();
+    		new AngryToadsMusic("sfx/piglette destroyed.wav").start();
         	if(bodyAIsPig){
-        		if(pigList.contains(bodyA)){
-        			pigList.remove(bodyA);
+        		if(toadList.contains(bodyA)){
+        			toadList.remove(bodyA);
         		}
         		bodyA.setActive(false);
         		m_stage.getWorld().destroyBody(bodyA);
         	}
         	if(bodyBIsPig){
-        		if(pigList.contains(bodyB)){
-        			pigList.remove(bodyB);
+        		if(toadList.contains(bodyB)){
+        			toadList.remove(bodyB);
         		}
         		bodyB.setActive(false);
         		m_stage.getWorld().destroyBody(bodyB);

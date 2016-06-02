@@ -79,9 +79,9 @@ public abstract class AngryToadsArea {
 	public final World sworld; // 世界对象
 	private final Vec2 gravity; // 重力向量
 	public Vec2 slingAnchor; // 弹弓位置
-	public ArrayList<Body> toadList; // 所有bird
+	public ArrayList<Body> birdList; // 所有bird
 	public ArrayList<Body> obList; // 所有障碍物
-	public ArrayList<Body> piglist, sling; // 所有pig，弹弓吊绳
+	public ArrayList<Body> toadList, sling; // 所有toad，弹弓吊绳
 	public WeldJoint attach; // 焊接关节，描述bird与弹弓的接触
 	public WeldJointDef attachDef; // 定义焊接关节
 	public Body ground; // 地面
@@ -96,9 +96,9 @@ public abstract class AngryToadsArea {
 		gravity = new Vec2(0, -10f); // 重力
 		inputQueue = new LinkedList<QueueItem>();
 		sworld = new World(gravity, true); // 重力；允许刚体休眠
-		toadList = new ArrayList<Body>();
+		birdList = new ArrayList<Body>();
 		obList = new ArrayList<Body>();
-		piglist = new ArrayList<Body>();
+		toadList = new ArrayList<Body>();
 		sling = new ArrayList<Body>(); // 弹弓
 		slingAnchor = new Vec2(); // 弹弓位置
 
@@ -123,10 +123,10 @@ public abstract class AngryToadsArea {
 
 		if (duration > 3 && attach == null) { // 射出时间大于3秒并且当前弹弓为空，将下一个bird架上弹弓
 
-			if (toadBullets <= toadList.size()) { // 还有bird炮弹
-				toadList.get(toadBullets).setTransform(slingAnchor, 0); // 新的bird架上弹弓
+			if (toadBullets <= birdList.size()) { // 还有bird炮弹
+				birdList.get(toadBullets).setTransform(slingAnchor, 0); // 新的bird架上弹弓
 
-				attachDef.bodyB = toadList.get(toadBullets); //重新定义弹弓与新bird的接触
+				attachDef.bodyB = birdList.get(toadBullets); //重新定义弹弓与新bird的接触
 
 				attach = (WeldJoint) this.getWorld().createJoint(attachDef);
 				duration = 0;
@@ -146,7 +146,7 @@ public abstract class AngryToadsArea {
 	}
 
 	public ArrayList<Body> getBirds() {
-		return toadList;
+		return birdList;
 	}
 
 	public ArrayList<Body> getObstacles() {
@@ -154,7 +154,7 @@ public abstract class AngryToadsArea {
 	}
 
 	public ArrayList<Body> getPigs() {
-		return piglist;
+		return toadList;
 	}
 
 	public World getWorld() {
@@ -230,7 +230,7 @@ public abstract class AngryToadsArea {
 			// shoot!
 			sworld.destroyJoint(mouseJoint);
 			mouseJoint = null;
-			if (toadBullets < toadList.size() - 1)
+			if (toadBullets < birdList.size() - 1)
 				toadBullets++;
 			releasetime = System.currentTimeMillis();
 
