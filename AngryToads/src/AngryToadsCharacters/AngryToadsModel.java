@@ -25,6 +25,7 @@ public class AngryToadsModel extends AngryToadsCharacter {
 	}
 
 	public Body createBody(World mom, int typeNum, Vec2 pos) {
+		this.getCharacterinfo().setTypeNum(20);
 		this.getCharacterdef().position.set(pos);
 		this.getCharacterdef().linearDamping = 0.05f;
 		// group of objects that will never collide.
@@ -43,11 +44,11 @@ public class AngryToadsModel extends AngryToadsCharacter {
 //			mybody.createFixture(characterfixdef);
 //			break;
 			case 1:
-				this.characterShape.m_radius = 0.5f;
+				this.characterShape.m_radius = 0.6f;
 				this.getCharacterfixdef().shape = this.characterShape;
 				this.getCharacterinfo().setName("AngryBird");
-				this.getCharacterinfo().setHalfheight(0.5f);
-				this.getCharacterinfo().setHalfwidth(0.5f);
+				this.getCharacterinfo().setHalfheight(0.6f);
+				this.getCharacterinfo().setHalfwidth(0.6f);
 				this.getCharacterinfo().setAppearance(birds1.getImage());
 				mybody.m_userData = this.getCharacterinfo();
 				mybody.createFixture(characterfixdef);

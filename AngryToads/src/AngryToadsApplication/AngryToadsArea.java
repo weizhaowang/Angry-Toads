@@ -12,7 +12,6 @@ import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.joints.*;
 
 
-import AngryToadsCharacters.AngryToadsBodyInfo;
 
 /**
  * 输入类型，包括
@@ -153,7 +152,7 @@ public abstract class AngryToadsArea {
 		return obList;
 	}
 
-	public ArrayList<Body> getPigs() {
+	public ArrayList<Body> getToads() {
 		return toadList;
 	}
 
@@ -175,6 +174,7 @@ public abstract class AngryToadsArea {
 		return false;
 	}
 
+	@SuppressWarnings("incomplete-switch")
 	public void update() {
 		if (!inputQueue.isEmpty()) {
 			synchronized (inputQueue) {

@@ -4,11 +4,9 @@
  */
 package AngryToadsApplication;
 
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -123,7 +121,6 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
 
         m_view.addMouseMotionListener(new MouseMotionListener() {
 
-            final Vec2 posDif = new Vec2();
             final Vec2 pos = new Vec2();
             final Vec2 pos2 = new Vec2();
 
@@ -165,49 +162,93 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
     public void preSolve(Contact contact, Manifold oldManifold) {
         // throw new UnsupportedOperationException("Not supported yet.");
     }
-
+ 
     Fixture fix ;
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
-
-        boolean bodyAIsPig = false;
-        boolean bodyBIsPig = false;
+    	/*
+    	 * may use:
+    	 * ((AngryToadsBodyInfo)(body.m_userData)).function();
+    	 * contact.getManifold().pointCount;
+    	 * impulse.normalImpulses[];
+    	 * m_stage.getWorld().distroyBody();
+    	 * body.setActive(true/false);
+    	 */
+    	
+    	boolean bodyADead=false;
+    	boolean bodyBDead=false;
         Body bodyA = contact.m_fixtureA.getBody();
         Body bodyB = contact.m_fixtureB.getBody();
-        String nameA = ((AngryToadsBodyInfo)(bodyA.m_userData)).getName();
-        String nameB = ((AngryToadsBodyInfo)(bodyB.m_userData)).getName();
-        if(nameA.equals("pig")){
-            bodyAIsPig = true;
+        int TypeA = ((AngryToadsBodyInfo)(bodyA.m_userData)).getTypeNum();
+        int TypeB = ((AngryToadsBodyInfo)(bodyB.m_userData)).getTypeNum();
+        ArrayList<Body> toadList = m_stage.getToads();
+        ArrayList<Body> obsList=m_stage.getObstacles();
+        
+        for (int i = 0; i < contact.getManifold().pointCount; i++) {
+        	if(impulse.normalImpulses[i]>6f){
+	        	if(!bodyADead&&(toadList.contains(bodyA)||obsList.contains(bodyA)))
+	        		bodyADead=((AngryToadsBodyInfo)(bodyA.m_userData)).figureHealth(impulse.normalImpulses[i]);
+	        	if(!bodyBDead&&(toadList.contains(bodyB)||obsList.contains(bodyB)))
+	        		bodyBDead=((AngryToadsBodyInfo)(bodyB.m_userData)).figureHealth(impulse.normalImpulses[i]);
+        	}
         }
-        if(nameB.equals("pig")){
-            bodyBIsPig = true;
+
+        
+        if(bodyADead){
+        	boolean hasPlayed=false;
+        	switch(TypeA){
+        	//wood
+        	case 0:
+        		new AngryToadsMusic("sfx/wood destroyed a1.wav").start();
+        		hasPlayed=true;
+        	//stone
+        	case 1:
+        		if(!hasPlayed){
+        			new AngryToadsMusic("sfx/ice rock damage a1.wav").start();
+        			hasPlayed=true;
+        		}
+        	//ice
+        	case 2:
+        		if(!hasPlayed)
+        			new AngryToadsMusic("sfx/ice light collision a8.wav").start();
+        		if(obsList.contains(bodyA))
+        			obsList.remove(bodyA);
+        		break;
+        	//toad
+        	case 10:
+        		new AngryToadsMusic("sfx/piglette destroyed.wav").start();
+        		if(toadList.contains(bodyA))
+        			toadList.remove(bodyA);
+        		break;
+        	}
+        	bodyA.setActive(false);
+        	m_stage.getWorld().destroyBody(bodyA);
         }
-        boolean pigDestroy = false;
-        if (bodyAIsPig || bodyBIsPig) {
-            for (int i = 0; i < contact.getManifold().pointCount; i++) {
-                if (impulse.normalImpulses[i] > 10.8) {
-                    pigDestroy = true;
-                    break;
-                }
-            }
-        }
-        ArrayList<Body> toadList = m_stage.getPigs();
-        if(pigDestroy){
-            new AngryToadsMusic("sfx/piglette destroyed.wav").start();
-            if(bodyAIsPig){
-                if(toadList.contains(bodyA)){
-                    toadList.remove(bodyA);
-                }
-                bodyA.setActive(false);
-                m_stage.getWorld().destroyBody(bodyA);
-            }
-            if(bodyBIsPig){
-                if(toadList.contains(bodyB)){
-                    toadList.remove(bodyB);
-                }
-                bodyB.setActive(false);
-                m_stage.getWorld().destroyBody(bodyB);
-            }
+        if(bodyBDead){
+        	boolean hasPlayed=false;
+        	switch(TypeB){
+        	case 0:
+        		new AngryToadsMusic("sfx/wood destroyed a1.wav").start();
+        		hasPlayed=true;
+        	case 1:
+        		if(!hasPlayed){
+        			new AngryToadsMusic("sfx/ice rock damage a1.wav").start();
+        			hasPlayed=true;
+        		}
+        	case 2:
+        		if(!hasPlayed)
+        			new AngryToadsMusic("sfx/ice light collision a8.wav").start();
+        		if(obsList.contains(bodyB))
+        			obsList.remove(bodyB);
+        		break;
+        	case 10:
+        		new AngryToadsMusic("sfx/piglette destroyed.wav").start();
+        		if(toadList.contains(bodyB))
+        			toadList.remove(bodyB);
+        		break;
+        	}
+        	bodyB.setActive(false);
+        	m_stage.getWorld().destroyBody(bodyB);
         }
 
         if (contact.m_fixtureA.m_filter.groupIndex == -1 || contact.m_fixtureB.m_filter.groupIndex == -1) {
