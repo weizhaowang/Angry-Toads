@@ -51,6 +51,8 @@ public class AngryToadsMusic implements ControllerListener {
     public void controllerUpdate(ControllerEvent e) {  
         if (e instanceof EndOfMediaEvent) {
            if (loop) {
+        	   player = null;
+        	   restart = true;
         	   start();
            }
            return;
