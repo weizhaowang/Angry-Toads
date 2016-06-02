@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package AngryToadsApplication;
 
 import java.awt.*;
@@ -48,7 +44,7 @@ public class AngryToadsDraw  {
         stagetodraw = s;
 
         birds = s.getBirds();
-        pigs = s.getPigs();
+        pigs = s.getToads();
         ground = s.getGround();
         obstacles = s.getObstacles();
     }
@@ -185,7 +181,7 @@ public class AngryToadsDraw  {
 
         if(this.getGraphics()!= null&& !contactpoint.isEmpty()) {
             temp = contactpoint.pop();
-            System.out.print("Contact point have " + contactpoint.size()+"\n");
+//        System.out.print("Contact point have " + contactpoint.size()+"\n");
 //        Graphics2D pen = this.getGraphics();
 //        System.out.print("contact is at "+temp.x+"\n");
 //        pen.drawString("Now You Are Seeing the Contact", 300,200);

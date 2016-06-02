@@ -16,7 +16,7 @@ abstract public class AngryToadsCharacter {
     public FixtureDef characterfixdef=new FixtureDef();
     public Shape characterShape;
     public AngryToadsBodyInfo characterinfo=new AngryToadsBodyInfo();
-
+    
     AngryToadsCharacter() {
         characterDef.bullet=false;
         characterDef.type=BodyType.DYNAMIC;
@@ -26,8 +26,7 @@ abstract public class AngryToadsCharacter {
         characterfixdef.density=1f;
         characterfixdef.restitution=0.5f;
     }
-
-
+    
     public void setPosition(Vec2 worldpos) {
         characterDef.position.set(worldpos);
     }
@@ -40,7 +39,6 @@ abstract public class AngryToadsCharacter {
     }
     public void setCharacterfixturedef(FixtureDef characterfix) {
         this.characterfixdef=characterfix;
-
     }
 
     public void setCharacterinfo(AngryToadsBodyInfo characterinfo) {
