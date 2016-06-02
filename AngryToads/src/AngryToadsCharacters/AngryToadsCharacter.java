@@ -11,36 +11,36 @@ import org.jbox2d.dynamics.FixtureDef;
 
 
 abstract public class AngryToadsCharacter {
-    
+
     public BodyDef characterDef=new BodyDef();
     public FixtureDef characterfixdef=new FixtureDef();
     public Shape characterShape;
     public AngryToadsBodyInfo characterinfo=new AngryToadsBodyInfo();
-    
+
     AngryToadsCharacter() {
         characterDef.bullet=false;
         characterDef.type=BodyType.DYNAMIC;
         characterDef.allowSleep=false;
-        
+
         characterfixdef.friction=0.9f;
         characterfixdef.density=1f;
         characterfixdef.restitution=0.5f;
     }
-    
-    
+
+
     public void setPosition(Vec2 worldpos) {
         characterDef.position.set(worldpos);
     }
 
     public void setCharactershape(Shape charactershape) {
-         this.characterfixdef.shape=charactershape;
+        this.characterfixdef.shape=charactershape;
     }
     public void setCharacterdef(BodyDef characterdef) {
         this.characterDef=characterdef;
     }
     public void setCharacterfixturedef(FixtureDef characterfix) {
         this.characterfixdef=characterfix;
-        
+
     }
 
     public void setCharacterinfo(AngryToadsBodyInfo characterinfo) {

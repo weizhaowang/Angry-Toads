@@ -10,15 +10,15 @@ import org.jbox2d.common.Vec2;
 
 
 public class AngryToadsViewFrame extends JFrame{
-    
+
     public int PREF_WIDTH=1000;
     public int PREF_HEIGHT=620;
     private JPanel layoutpanel;
     private CardLayout layout=new CardLayout();
     @SuppressWarnings("unused")
-	private final AngryToadsMenu themenu;
+    private final AngryToadsMenu themenu;
     @SuppressWarnings("unused")
-	private final AngryToadsPanel thegame;
+    private final AngryToadsPanel thegame;
     int[] pixels = new int[16 * 16];
 
     AngryToadsViewFrame(AngryToadsMenu menu,AngryToadsPanel game){
@@ -29,7 +29,7 @@ public class AngryToadsViewFrame extends JFrame{
         PREF_WIDTH=menu.getWidth();
         PREF_HEIGHT=menu.getHeight();
         Image transparent = Toolkit.getDefaultToolkit().createImage(
-        new MemoryImageSource(16, 16, pixels, 0, 16));
+                new MemoryImageSource(16, 16, pixels, 0, 16));
         this.add(layoutpanel);
         this.setPreferredSize(new Dimension(PREF_WIDTH,PREF_HEIGHT));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -40,7 +40,7 @@ public class AngryToadsViewFrame extends JFrame{
         this.setCursor(Toolkit.getDefaultToolkit().createCustomCursor(transparent,new Point(0,0), "transparent"));
         layout.show(layoutpanel, "menu");
         pack();
-      
+
     }
 
 
@@ -51,8 +51,8 @@ public class AngryToadsViewFrame extends JFrame{
     public JPanel getLayoutpanel() {
         return layoutpanel;
     }
-    
 
-    
+
+
 }
 

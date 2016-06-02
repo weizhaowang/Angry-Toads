@@ -1,6 +1,6 @@
 /*
  * Class to create obstacles.
- * type 0-wood 1-glass 2-box. 
+ * type 0-wood 1-glass 2-box.
  */
 
 package AngryToadsCharacters;
@@ -44,30 +44,30 @@ public class AngryToadsObstacles extends AngryToadsCharacter {
 		 * wood.
 		 * health is 15f.
 		 */
-		case 0:
-			this.getCharacterinfo().setName("Wood");
-			this.getCharacterinfo().setAppearance(wood.getImage());
-			setCharacter(hWidth,hHeight,angle,1f,0.1f,0.7f);
-			obs.m_userData = this.getCharacterinfo();
-			obs.createFixture(this.characterfixdef);
-			break;
+			case 0:
+				this.getCharacterinfo().setName("Wood");
+				this.getCharacterinfo().setAppearance(wood.getImage());
+				setCharacter(hWidth,hHeight,angle,1f,0.1f,0.7f);
+				obs.m_userData = this.getCharacterinfo();
+				obs.createFixture(this.characterfixdef);
+				break;
 		/*
 		 * stone.
 		 * can't be destroyed.
 		 */
-		case 1:
-			this.getCharacterinfo().setName("Glass");
-			this.getCharacterinfo().setAppearance(glass.getImage());
-			setCharacter(hWidth,hHeight,angle,3f,0.01f,0.5f);
-			obs.m_userData=this.getCharacterinfo();
-			obs.createFixture(this.characterfixdef);
-			break;
+			case 1:
+				this.getCharacterinfo().setName("Glass");
+				this.getCharacterinfo().setAppearance(glass.getImage());
+				setCharacter(hWidth,hHeight,angle,3f,0.01f,0.5f);
+				obs.m_userData=this.getCharacterinfo();
+				obs.createFixture(this.characterfixdef);
+				break;
 		/*
 		 * box.
 		 * can't be destroyed.
 		 */
-		case 2:
-			break;
+			case 2:
+				break;
 		}
 		return obs;
 	}

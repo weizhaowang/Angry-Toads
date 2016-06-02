@@ -9,9 +9,9 @@ import org.jbox2d.dynamics.World;
 
 public class AngryToadsEnemy extends AngryToadsCharacter {
 	CircleShape enemyShape=new CircleShape();
-	ImageIcon pig0 = new ImageIcon("src/AngryToadsImagePack/pigs.png");
+	ImageIcon pig0 = new ImageIcon("src/AngryToadsImagePack/AngryToad.png");
 	ImageIcon pig1 = new ImageIcon();
-	
+
 	public AngryToadsEnemy() {
 		super();
 		setCharacterinfo(0.7f, 0.7f, 10f);
@@ -34,16 +34,16 @@ public class AngryToadsEnemy extends AngryToadsCharacter {
 		this.getCharacterdef().position.set(pos);
 		Body enemy = mom.createBody(characterDef);
 		switch (type) {
-		case 0:
-			super.setCharactershape(this.enemyShape);
-			this.enemyShape.m_radius=0.7f;
-			this.getCharacterinfo().setName("pig");
-			this.getCharacterinfo().setAppearance(pig0.getImage());
-            this.getCharacterfixdef().userData = this.getCharacterinfo();
-            enemy.m_userData = this.getCharacterinfo();
-            characterfixdef.density=0.5f;
-            enemy.createFixture(characterfixdef);
-            break;
+			case 0:
+				super.setCharactershape(this.enemyShape);
+				this.enemyShape.m_radius=0.7f;
+				this.getCharacterinfo().setName("pig");
+				this.getCharacterinfo().setAppearance(pig0.getImage());
+				this.getCharacterfixdef().userData = this.getCharacterinfo();
+				enemy.m_userData = this.getCharacterinfo();
+				characterfixdef.density=0.5f;
+				enemy.createFixture(characterfixdef);
+				break;
 		}
 		return enemy;
 	}

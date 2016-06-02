@@ -36,7 +36,7 @@ public class AngryToadsMenuController extends MouseMotionAdapter implements Runn
 		while (true) {
 			try {
 				if (!myMenu.shut || !stop) // keeping painting menu when menu
-											// painting operation is not set to false
+					// painting operation is not set to false
 					if (myMenu.render())
 						myMenu.paintscence();
 				Thread.sleep(5);

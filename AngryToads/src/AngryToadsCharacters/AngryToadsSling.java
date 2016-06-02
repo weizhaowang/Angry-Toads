@@ -11,12 +11,12 @@ import org.jbox2d.dynamics.World;
 
 
 public class AngryToadsSling {
-        static PolygonShape slingShape=new PolygonShape();
-        static BodyDef sd=new BodyDef();
-        static AngryToadsBodyInfo si=new AngryToadsBodyInfo();
-        static FixtureDef sf=new FixtureDef();
-        static ImageIcon slingImage=new ImageIcon("src/AngryToadsImagePack/slingstick.png");
-    
+    static PolygonShape slingShape=new PolygonShape();
+    static BodyDef sd=new BodyDef();
+    static AngryToadsBodyInfo si=new AngryToadsBodyInfo();
+    static FixtureDef sf=new FixtureDef();
+    static ImageIcon slingImage=new ImageIcon("src/AngryToadsImagePack/slingstick.png");
+
     static public Body createStick(World mom,Vec2 pos) {
         slingShape.setAsBox(0.5f, 2.7f);
         sd.type=BodyType.STATIC;

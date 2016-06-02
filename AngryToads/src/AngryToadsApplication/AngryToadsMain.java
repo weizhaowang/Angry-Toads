@@ -29,28 +29,24 @@ public class AngryToadsMain {
      */
     public static void main(String[] args) throws InterruptedException, IOException{// NoPlayerException, CannotRealizeException {
 
-            
-            ToadsLevel ts=new ToadsLevel();
-          
-            AngryToadsMenu menu=new AngryToadsMenu();
-            AngryToadsPanel game=new AngryToadsPanel();
 
-            AngryToadsViewFrame mainframe=new AngryToadsViewFrame(menu,game);
+        ToadsLevel ts=new ToadsLevel();
 
-            AngryToadsController tc=new AngryToadsController(ts,game);
-            AngryToadsMenuController mc=new AngryToadsMenuController(menu);
-            AngryToadsPanelController pc=new AngryToadsPanelController(mainframe.getLayoutpanel(),mc,tc);        
+        AngryToadsMenu menu=new AngryToadsMenu();
+        AngryToadsPanel game=new AngryToadsPanel();
 
-            ts.getWorld().setContactListener(tc);
+        AngryToadsViewFrame mainframe=new AngryToadsViewFrame(menu,game);
 
-            Thread switcher=new Thread(pc);
-            
-            AngryToadsMusic music = new AngryToadsMusic("music/title_theme.wav");
-            music.setLoop(true);
-            music.start();
-            
-            switcher.start();
-            mainframe.setVisible(true);
-        
+        AngryToadsController tc=new AngryToadsController(ts,game);
+        AngryToadsMenuController mc=new AngryToadsMenuController(menu);
+        AngryToadsPanelController pc=new AngryToadsPanelController(mainframe.getLayoutpanel(),mc,tc);
+
+        ts.getWorld().setContactListener(tc);
+
+        Thread switcher=new Thread(pc);
+
+        switcher.start();
+        mainframe.setVisible(true);
+
     }
 }
