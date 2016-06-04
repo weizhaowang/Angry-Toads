@@ -57,13 +57,13 @@ public class AngryToadsViewportTransform {
     }
 
     public void mouseWheelTransform(int xoffset,int scaletimes) {
-        if (scale < 25 && scaletimes > 0 && scale + scaletimes * 2 > 18) {
-            scale = scale + scaletimes * 2;
+        if (scale < 25 && scaletimes > 0) {
+            scale += 2;
             offset.y += 2;
             bgscale += 0.01f;
         }
-        if (scale > 18 && scaletimes < 0 && scale + scaletimes * 2 < 25) {
-            scale = scale + scaletimes * 2;
+        if (scale > 15 && scaletimes < 0) {
+            scale -= 2;
             offset.y -= 2;
             bgscale -= 0.01f;
         }
