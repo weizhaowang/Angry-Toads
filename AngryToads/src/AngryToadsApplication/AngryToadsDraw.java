@@ -50,6 +50,17 @@ public class AngryToadsDraw  {
     }
 
     public synchronized void drawStage() {
+    	//Initialize cam
+    	int initCamFlag = vpt.reportcaminitStatus();
+    	if(initCamFlag != 3)
+    	{
+    		switch(initCamFlag)
+    		{
+    		case 0:vpt.camPoint2Enemy();break;
+    		case 1:vpt.camPoint2Sling();break;
+    		case 2:vpt.camReset();break;
+    		}
+    	}
         if (viewport.render()) {
             drawBackground();
             drawBirds();
