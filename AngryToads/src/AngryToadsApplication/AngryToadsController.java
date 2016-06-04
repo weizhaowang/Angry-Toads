@@ -204,7 +204,7 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
         	//stone
         	case 1:
         		if(!hasPlayed){
-        			new AngryToadsMusic("sfx/ice rock damage a1.wav").start();
+        			new AngryToadsMusic("sfx/rock damage a1.wav").start();
         			hasPlayed=true;
         		}
         	//ice
@@ -232,7 +232,7 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
         		hasPlayed=true;
         	case 1:
         		if(!hasPlayed){
-        			new AngryToadsMusic("sfx/ice rock damage a1.wav").start();
+        			new AngryToadsMusic("sfx/rock damage a1.wav").start();
         			hasPlayed=true;
         		}
         	case 2:
