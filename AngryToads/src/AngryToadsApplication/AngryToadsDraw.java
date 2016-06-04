@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package AngryToadsApplication;
 
 import java.awt.*;
@@ -20,6 +16,7 @@ import org.jbox2d.dynamics.World;
 import org.jbox2d.dynamics.contacts.Contact;
 
 import AngryToadsCharacters.AngryToadsBodyInfo;
+
 
 public class AngryToadsDraw  {
 
@@ -47,7 +44,7 @@ public class AngryToadsDraw  {
         stagetodraw = s;
 
         birds = s.getBirds();
-        pigs = s.getPigs();
+        pigs = s.getToads();
         ground = s.getGround();
         obstacles = s.getObstacles();
     }
@@ -97,22 +94,22 @@ public class AngryToadsDraw  {
                     angle = -tempbody.getAngle();
                     dpos = tempbody.getPosition().clone();
                     cpos = tempbody.getPosition().clone();
-                    dpos.x = dpos.x - ((AngryToadsBodyInfo) tempbody.getUserData()).getHafwidth();
-                    dpos.y = dpos.y + ((AngryToadsBodyInfo) tempbody.getUserData()).getHafheight();
+                    dpos.x = dpos.x - ((AngryToadsBodyInfo) tempbody.getUserData()).getHalfwidth();
+                    dpos.y = dpos.y + ((AngryToadsBodyInfo) tempbody.getUserData()).getHalfheight();
 
                     this.getPosToDraw(dpos, dpos);
                     this.getPosToDraw(cpos, cpos);
 
                     tempinfo = (AngryToadsBodyInfo) tempbody.getUserData();
-                    height = (int) (tempinfo.getHafheight() * 2 * vpt.scale);
-                    width = (int) (tempinfo.getHafwidth() * 2 * vpt.scale);
+                    height = (int) (tempinfo.getHalfheight() * 2 * vpt.scale);
+                    width = (int) (tempinfo.getHalfwidth() * 2 * vpt.scale);
 
                     if (angle != 0) {
 
                         this.getTransPos(angle, cpos);
 
                     }
-                    
+
                     pen.setTransform(transform);
                     pen.drawImage(tempinfo.getAppearance(), (int) dpos.x, (int) dpos.y, width, height, null);
 
@@ -162,7 +159,7 @@ public class AngryToadsDraw  {
         pen.setStroke(rubberStroke);
         pen.setColor(new Color(48, 23, 8));
 
-        slingAnchor1 = stagetodraw.getBirds().get(stagetodraw.birdbullets).getPosition().clone();
+        slingAnchor1 = stagetodraw.getBirds().get(stagetodraw.toadBullets).getPosition().clone();
 
         slingpos = stagetodraw.slingAnchor.clone();
         slingpos.y += 0.5;
@@ -179,27 +176,27 @@ public class AngryToadsDraw  {
 
     }
 
-Vec2 temp = new Vec2();
+    Vec2 temp = new Vec2();
     public void drawContact( ) {
-        
+
         if(this.getGraphics()!= null&& !contactpoint.isEmpty()) {
             temp = contactpoint.pop();
-        System.out.print("Contact point have " + contactpoint.size()+"\n");    
+//        System.out.print("Contact point have " + contactpoint.size()+"\n");
 //        Graphics2D pen = this.getGraphics();
 //        System.out.print("contact is at "+temp.x+"\n");
 //        pen.drawString("Now You Are Seeing the Contact", 300,200);
         }
-        
+
     }
-    
+
     public void pushContactPoint(Vec2 cp) {
-       Vec2 tempcp = new Vec2();
-       this.getPosToDraw(cp, tempcp);
-       contactpoint.push(tempcp); 
-        
+        Vec2 tempcp = new Vec2();
+        this.getPosToDraw(cp, tempcp);
+        contactpoint.push(tempcp);
+
     }
-    
-    
+
+
     Vec2 gpos = new Vec2();
     float grasswidth;
     float grassheight;
@@ -260,7 +257,7 @@ Vec2 temp = new Vec2();
     public void getPosToDraw(Vec2 world, Vec2 out) {
         Vec2 tempworld = world.clone();
         vpt.getWorldtoScreen(tempworld, out);
-        
+
     }
 
     public AffineTransform getTransPos(float angel, Vec2 anchorpoint) {

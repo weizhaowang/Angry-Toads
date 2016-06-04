@@ -4,11 +4,9 @@
  */
 package AngryToadsApplication;
 
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,7 +25,7 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
     private AngryToadsArea m_stage;
     public AngryToadsPanel m_view;
     private final AngryToadsDraw drawer;
-   // private final MusicController music;
+    // private final MusicController music;
     Thread gamethread;
     boolean stop = true;
 
@@ -123,7 +121,6 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
 
         m_view.addMouseMotionListener(new MouseMotionListener() {
 
-            final Vec2 posDif = new Vec2();
             final Vec2 pos = new Vec2();
             final Vec2 pos2 = new Vec2();
 
@@ -148,12 +145,12 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
         });
     }
 
-    
+
     @Override
     public synchronized void beginContact(Contact contact) {
-               
-          //   drawer.drawContact();
-          //   System.out.print("listener thread !!!\n");
+
+        //   drawer.drawContact();
+        //   System.out.print("listener thread !!!\n");
     }
 
     @Override
@@ -165,70 +162,113 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
     public void preSolve(Contact contact, Manifold oldManifold) {
         // throw new UnsupportedOperationException("Not supported yet.");
     }
-
+ 
     Fixture fix ;
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
+    	/*
+    	 * may use:
+    	 * ((AngryToadsBodyInfo)(body.m_userData)).function();
+    	 * contact.getManifold().pointCount;
+    	 * impulse.normalImpulses[];
+    	 * m_stage.getWorld().distroyBody();
+    	 * body.setActive(true/false);
+    	 */
     	
-    	boolean bodyAIsPig = false;
-        boolean bodyBIsPig = false;
-    	Body bodyA = contact.m_fixtureA.getBody();
-    	Body bodyB = contact.m_fixtureB.getBody();
-    	String nameA = ((AngryToadsBodyInfo)(bodyA.m_userData)).getName();
-    	String nameB = ((AngryToadsBodyInfo)(bodyB.m_userData)).getName();
-    	if(nameA.equals("pig")){
-    		bodyAIsPig = true;
-    	}
-    	if(nameB.equals("pig")){
-    		bodyBIsPig = true;
-    	}
-    	boolean pigDestroy = false;
-    	if (bodyAIsPig || bodyBIsPig) {
-        	for (int i = 0; i < contact.getManifold().pointCount; i++) {
-        		if (impulse.normalImpulses[i] > 10.8) {
-        			pigDestroy = true;
-        			break;
-        		}
+    	boolean bodyADead=false;
+    	boolean bodyBDead=false;
+        Body bodyA = contact.m_fixtureA.getBody();
+        Body bodyB = contact.m_fixtureB.getBody();
+        int TypeA = ((AngryToadsBodyInfo)(bodyA.m_userData)).getTypeNum();
+        int TypeB = ((AngryToadsBodyInfo)(bodyB.m_userData)).getTypeNum();
+        ArrayList<Body> toadList = m_stage.getToads();
+        ArrayList<Body> obsList=m_stage.getObstacles();
+        
+        for (int i = 0; i < contact.getManifold().pointCount; i++) {
+        	if(impulse.normalImpulses[i]>6f){
+	        	if(!bodyADead&&(toadList.contains(bodyA)||obsList.contains(bodyA)))
+	        		bodyADead=((AngryToadsBodyInfo)(bodyA.m_userData)).figureHealth(impulse.normalImpulses[i]);
+	        	if(!bodyBDead&&(toadList.contains(bodyB)||obsList.contains(bodyB)))
+	        		bodyBDead=((AngryToadsBodyInfo)(bodyB.m_userData)).figureHealth(impulse.normalImpulses[i]);
         	}
-    	}
-    	ArrayList<Body> pigList = m_stage.getObstacles();
-    	if(pigDestroy){
-    		AngryToadsMusic music = new AngryToadsMusic("sfx/piglette destroyed.wav");
-    		music.start();
-        	if(bodyAIsPig){
-        		if(pigList.contains(bodyA)){
-        			pigList.remove(bodyA);
+        }
+
+        
+        if(bodyADead){
+        	boolean hasPlayed=false;
+        	switch(TypeA){
+        	//wood
+        	case 0:
+        		new AngryToadsMusic("sfx/wood destroyed a1.wav").start();
+        		hasPlayed=true;
+        	//stone
+        	case 1:
+        		if(!hasPlayed){
+        			new AngryToadsMusic("sfx/ice rock damage a1.wav").start();
+        			hasPlayed=true;
         		}
-        		bodyA.setActive(false);
-        		m_stage.getWorld().destroyBody(bodyA);
+        	//ice
+        	case 2:
+        		if(!hasPlayed)
+        			new AngryToadsMusic("sfx/ice light collision a8.wav").start();
+        		if(obsList.contains(bodyA))
+        			obsList.remove(bodyA);
+        		break;
+        	//toad
+        	case 10:
+        		new AngryToadsMusic("sfx/piglette destroyed.wav").start();
+        		if(toadList.contains(bodyA))
+        			toadList.remove(bodyA);
+        		break;
         	}
-        	if(bodyBIsPig){
-        		if(pigList.contains(bodyB)){
-        			pigList.remove(bodyB);
+        	bodyA.setActive(false);
+        	m_stage.getWorld().destroyBody(bodyA);
+        }
+        if(bodyBDead){
+        	boolean hasPlayed=false;
+        	switch(TypeB){
+        	case 0:
+        		new AngryToadsMusic("sfx/wood destroyed a1.wav").start();
+        		hasPlayed=true;
+        	case 1:
+        		if(!hasPlayed){
+        			new AngryToadsMusic("sfx/ice rock damage a1.wav").start();
+        			hasPlayed=true;
         		}
-        		bodyB.setActive(false);
-        		m_stage.getWorld().destroyBody(bodyB);
+        	case 2:
+        		if(!hasPlayed)
+        			new AngryToadsMusic("sfx/ice light collision a8.wav").start();
+        		if(obsList.contains(bodyB))
+        			obsList.remove(bodyB);
+        		break;
+        	case 10:
+        		new AngryToadsMusic("sfx/piglette destroyed.wav").start();
+        		if(toadList.contains(bodyB))
+        			toadList.remove(bodyB);
+        		break;
         	}
-    	}
+        	bodyB.setActive(false);
+        	m_stage.getWorld().destroyBody(bodyB);
+        }
 
-       if (contact.m_fixtureA.m_filter.groupIndex == -1 || contact.m_fixtureB.m_filter.groupIndex == -1) {
-    	   fix = contact.m_fixtureA.m_filter.groupIndex == -1?contact.m_fixtureA:contact.m_fixtureB;
+        if (contact.m_fixtureA.m_filter.groupIndex == -1 || contact.m_fixtureB.m_filter.groupIndex == -1) {
+            fix = contact.m_fixtureA.m_filter.groupIndex == -1?contact.m_fixtureA:contact.m_fixtureB;
 
-    	   for (int i = 0; i < contact.getManifold().pointCount; i++) {
+            for (int i = 0; i < contact.getManifold().pointCount; i++) {
 
-    		   if (impulse.normalImpulses[i] > 0.8) {
-    			   System.out.print("pushing point \n");
-    			   drawer.pushContactPoint(fix.m_body.getPosition());
+                if (impulse.normalImpulses[i] > 0.8) {
+                    //System.out.print("pushing point \n");
+                    drawer.pushContactPoint(fix.m_body.getPosition());
     			   /*try {
                         //music.birdScream();
                     } catch (IOException ex) {                    }*/
-    		   }
-    	   }
+                }
+            }
         }
         if (contact.m_fixtureA.m_filter.groupIndex == 1 || contact.m_fixtureB.m_filter.groupIndex == 1) {
-                // System.out.print(" impulse point count  : "+impulse.normalImpulses.length+"\n");
+            // System.out.print(" impulse point count  : "+impulse.normalImpulses.length+"\n");
             for (int i = 0; i < contact.getManifold().pointCount; i++) {
-                 //System.out.print("wood impulse : "+impulse.normalImpulses[i]+"\n");
+                //System.out.print("wood impulse : "+impulse.normalImpulses[i]+"\n");
                 if (impulse.normalImpulses[i] > 3.1f) {
                     //System.out.print("wood impulse : "+impulse.normalImpulses[i]+"\n");
                     /*try {
