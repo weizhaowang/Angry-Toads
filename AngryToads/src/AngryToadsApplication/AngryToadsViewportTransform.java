@@ -140,7 +140,7 @@ public class AngryToadsViewportTransform {
     		this.ZoomInandOut(-1);
     	
     	float dist = offset.x - this.initOffsetx;
-    	offset.x -= dist*0.1f;
+    	offset.x -= dist*0.05f;
     	dist = dist > 0.0f? dist : -dist;
     	
     	if(diff < 0.1f && dist < 1.0f)
