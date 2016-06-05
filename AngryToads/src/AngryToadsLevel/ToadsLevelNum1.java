@@ -16,9 +16,10 @@ public class ToadsLevelNum1 extends AngryToadsArea{
 		AngryToadsGround nGround = new AngryToadsGround();
 		AngryToadsModel nModel = new AngryToadsModel();
 		AngryToadsEnemy nEnemy = new AngryToadsEnemy();
-
+		
 		this.ground = nGround.createGround(this.sworld);
-
+		this.setLevelNum(1);
+		
 		Vec2 pos = new Vec2();
 		for (int i = 0; i < 3; i++) {
 			pos.set(2 + i / 2, 3f);

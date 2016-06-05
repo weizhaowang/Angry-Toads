@@ -19,6 +19,7 @@ import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.contacts.Contact;
 
 import AngryToadsCharacters.AngryToadsBodyInfo;
+import AngryToadsLevel.ToadsLevel;
 
 public class AngryToadsController extends MouseAdapter implements Runnable, MouseMotionListener, ContactListener {
 
@@ -71,6 +72,13 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
 
     public void restart() {
         // TODO: Restart
+    	int temp=this.m_stage.getLevelNum();
+    	this.m_stage=null;
+    	this.m_stage=new ToadsLevel(temp).createLevel();
+    	this.m_stage.initStage();
+    	this.m_stage.getWorld().setContactListener(this);
+    	drawer.setStage(this.m_stage);
+    	
     }
 
     public void backToMenu () {

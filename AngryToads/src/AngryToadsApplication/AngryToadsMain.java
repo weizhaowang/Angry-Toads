@@ -43,6 +43,6 @@ public class AngryToadsMain {
 
         switcher.start();
         mainframe.setVisible(true);
-
+        //tc.restart();
     }
 }
