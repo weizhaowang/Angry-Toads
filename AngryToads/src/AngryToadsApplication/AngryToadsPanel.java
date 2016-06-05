@@ -29,6 +29,7 @@ class AngryToadsPanel extends JPanel {
     private ImageIcon continueButton = new ImageIcon("src/AngryToadsImagePack/continue.png");
     private ImageIcon menuButton = new ImageIcon("src/AngryToadsImagePack/menu.png");
     private ImageIcon restartbutton = new ImageIcon("src/AngryToadsImagePack/resume.png");
+    private ImageIcon nextLevelButton = new ImageIcon("src/AngryToadsImagePack/nextLevel.png");
     ImageIcon finger=new ImageIcon("src/AngryToadsImagePack/Finger.png");
 
     private boolean dragflag = false, insidePause = false, insideRestart = false, insideMenu = false, insideResume = false;
@@ -65,23 +66,43 @@ class AngryToadsPanel extends JPanel {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (insidePause) {
-                    System.out.println("游戏暂停");
-                    isPause = true;
-                    myController.stop = true;
+                if (!isPause && !gameOver) {
+                    if (insidePause) {
+                        System.out.println("游戏暂停");
+                        isPause = true;
+                        myController.stop = true;
+                    }
+                    if (insideRestart) {
+                        System.out.println("重新游戏");
+                        myController.restart();
+                    }
                 }
-                if (insideRestart) {
-                    System.out.println("重新游戏");
-                    myController.restart();
+                if (isPause && !gameOver) {
+                    if (insideMenu) {
+                        System.out.println("回到主菜单");
+                        myController.backToMenu();
+                    }
+                    if (insideResume) {
+                        System.out.println("游戏继续");
+                        isPause = false;
+                        myController.stop = false;
+                    }
                 }
-                if (insideMenu) {
-                    System.out.println("回到主菜单");
-                    myController.backToMenu();
-                }
-                if (insideResume) {
-                    System.out.println("游戏继续");
-                    isPause = false;
-                    myController.stop = false;
+                if (!isPause && gameOver) {
+                    if (insideMenu) {
+                        System.out.println("回到主菜单");
+                        myController.backToMenu();
+                    }
+                    if (insideResume) {
+                        if (hasWin) {
+                            System.out.println("下一关");
+                            // TODO: 下一关
+                        } else {
+                            System.out.println("重新游戏");
+                            myController.restart();
+                        }
+                        gameOver = false;
+                    }
                 }
             }
 
@@ -116,7 +137,7 @@ class AngryToadsPanel extends JPanel {
             public void mouseMoved(MouseEvent e) {
                 mark=e.getX();
                 fingerpoint.set(e.getX(), e.getY());
-                if (!isPause) {
+                if (!isPause && !gameOver) {
                     insideMenu = insideResume = false;
                     if (e.getX() > 0 && e.getX() < 50 * b1s && e.getY() > 0 && e.getY() < 50 * b1s) {
                             b1s = 1.15f;
@@ -201,24 +222,34 @@ class AngryToadsPanel extends JPanel {
         dbg.drawImage(pausebutton.getImage(), 0,0, (int) (50*b1s), (int) (50*b1s),null);
         dbg.drawImage(restartbutton.getImage(),55,0, (int) (50*b2s), (int) (50*b2s),null);
 
-        if (isPause) {
-            // 淡化背景
-            dbg.setColor(new Color(0.0f, 0.0f, 0.0f, 0.25f));
-            dbg.fillRect(0, 0, centerX * 2, centerY * 2);
-
-            // 外框
-            dbg.setColor(new Color(46, 134, 114));
-            dbg.fillRoundRect(centerX - 120, centerY - 100, 240, 100, 20, 20);
-            dbg.setStroke(new BasicStroke(3));
-            dbg.setColor(new Color(252, 182, 74));
-            dbg.drawRoundRect(centerX - 120, centerY - 100, 240, 100, 20, 20);
+        if (isPause || gameOver) {
+            drwaAlertBox();
 
             // 游戏暂停四个字
             dbg.setColor(Color.WHITE);
             dbg.setFont(new Font("微软雅黑", Font.PLAIN, 25));
-            String info = "游戏暂停";
+            String info;
+
+            if (isPause) {
+                info = "游戏暂停";
+            } else {
+                if (hasWin) {
+                    info = "游戏胜利";
+                } else {
+                    info = "游戏失败";
+                }
+            }
+
             if (insideResume) {
-                info = "继续游戏";
+                if (isPause) {
+                    info = "继续游戏";
+                } else if (gameOver) {
+                    if (hasWin) {
+                        info = "玩下一关";
+                    } else {
+                        info = "重玩此关";
+                    }
+                }
             }
             if (insideMenu) {
                 info = "回主菜单";
@@ -234,11 +265,34 @@ class AngryToadsPanel extends JPanel {
             resumeW = resumeH = (int)(50 * b4s);
 
             dbg.drawImage(menuButton.getImage(), menuX, menuY, menuW, menuH, null);
-            dbg.drawImage(continueButton.getImage(), resumeX, resumeY, resumeW, resumeH, null);
+            if (isPause) {
+                dbg.drawImage(continueButton.getImage(), resumeX, resumeY, resumeW, resumeH, null);
+            } else if (gameOver) {
+                if (hasWin) {
+                    dbg.drawImage(nextLevelButton.getImage(), resumeX, resumeY, resumeW, resumeH, null);
+                } else {
+                    dbg.drawImage(continueButton.getImage(), resumeX, resumeY, resumeW, resumeH, null);
+                }
+            }
         }
 
         return true;
     }
+
+    private void drwaAlertBox() {
+        // 淡化背景
+        dbg.setColor(new Color(0.0f, 0.0f, 0.0f, 0.25f));
+        dbg.fillRect(0, 0, centerX * 2, centerY * 2);
+
+        // 外框
+        dbg.setColor(new Color(46, 134, 114));
+        dbg.fillRoundRect(centerX - 120, centerY - 100, 240, 100, 20, 20);
+        dbg.setStroke(new BasicStroke(3));
+        dbg.setColor(new Color(252, 182, 74));
+        dbg.drawRoundRect(centerX - 120, centerY - 100, 240, 100, 20, 20);
+    }
+
+
     public  void paintscence(){
 
         if(PREF_WIDTH!=0&&PREF_HEIGHT!=0) {
