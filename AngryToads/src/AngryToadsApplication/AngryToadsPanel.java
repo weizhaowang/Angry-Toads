@@ -67,6 +67,9 @@ class AngryToadsPanel extends JPanel {
 
             @Override
             public void mouseClicked(MouseEvent e) {
+                if (insidePause || insideRestart || insideMenu || insideResume) {
+                    new AngryToadsMusic("music/operate_button.wav").start();
+                }
                 if (!isPause && !gameOver) {
                     if (insidePause) {
                         System.out.println("游戏暂停");
@@ -138,41 +141,27 @@ class AngryToadsPanel extends JPanel {
             public void mouseMoved(MouseEvent e) {
                 mark=e.getX();
                 fingerpoint.set(e.getX(), e.getY());
+                insideMenu = insideResume = insidePause = insideRestart = false;
+                b1s = b2s = b3s = b4s = 1f;
                 if (!isPause && !gameOver) {
-                    insideMenu = insideResume = false;
                     if (e.getX() > 0 && e.getX() < 50 * b1s && e.getY() > 0 && e.getY() < 50 * b1s) {
                             b1s = 1.15f;
                             insidePause = true;
-                    } else {
-                        insidePause = false;
-                        b1s = 1f;
                     }
-
                     if (e.getX() > 60 && e.getX() < 55 + 50 * b2s && e.getY() > 0 && e.getY() < 50 * b2s) {
                             b2s = 1.15f;
                             insideRestart = true;
-                    } else {
-                        b2s = 1f;
-                        insideRestart = false;
                     }
                 }else {
-                    insidePause = insideRestart = false;
                     if (e.getX() > menuX && e.getX() < menuX + menuH && e.getY() > menuY && e.getY() < menuY + menuW) {
                             b3s = 1.15f;
                             insideMenu = true;
-                    } else {
-                        insideMenu = false;
-                        b3s = 1f;
                     }
                     if (e.getX() > resumeX && e.getX() < resumeX + resumeH && e.getY() > resumeY && e.getY() < resumeY + resumeW) {
                         b4s = 1.15f;
                         insideResume = true;
-                    } else {
-                        insideResume = false;
-                        b4s = 1f;
                     }
                 }
-
             }
 
         });
