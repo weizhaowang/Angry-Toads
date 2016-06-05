@@ -229,6 +229,7 @@ public abstract class AngryToadsArea {
 			// and
 			// shoot!
 			sworld.destroyJoint(mouseJoint);
+			new AngryToadsMusic("sfx/bird 01 flying.wav").start();
 			mouseJoint = null;
 			if (toadBullets < birdList.size() - 1)
 				toadBullets++;
@@ -279,6 +280,7 @@ public abstract class AngryToadsArea {
 			body.setFixedRotation(true);// NOTE!!!!!!!!!!!!!!!!!
 			mouseJoint = (MouseJoint) sworld.createJoint(def);
 			body.setAwake(true);
+			new AngryToadsMusic("sfx/slingshot streched.wav").start();
 		}
 	}
 
