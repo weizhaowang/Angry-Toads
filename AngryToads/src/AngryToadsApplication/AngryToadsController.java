@@ -73,6 +73,11 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
         // TODO: Restart
     }
 
+    public void backToMenu () {
+        // TODO: Back To Menu
+    }
+
+
     public void resume() {
         if (!isPainting()) {
             stop = false;
