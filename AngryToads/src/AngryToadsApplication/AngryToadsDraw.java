@@ -67,6 +67,15 @@ public class AngryToadsDraw  {
 
             drawtrack(birdIndex,track);
             drawBirds();
+            Body bullet = stagetodraw.getBirds().get(stagetodraw.toadBullets);
+            Boolean bulletFlying = bullet.getLinearVelocity().length() > 1.0f ? true : false;
+            if(bulletFlying)
+            {
+            	Vec2 bulletPos = bullet.getPosition().clone();
+            	vpt.getWorldtoScreen(bulletPos, bulletPos);
+            	vpt.camPoint2Bullet(bulletPos);
+            }
+            
             drawPigs();
             drawObstacles();
             drawSling();
