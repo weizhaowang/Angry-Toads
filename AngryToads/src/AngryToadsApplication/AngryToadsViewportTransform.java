@@ -69,7 +69,7 @@ public class AngryToadsViewportTransform {
             offset.y += 2;
             bgscale += 0.01f;
         }
-        if (scale > 15 && scaletimes < 0) {
+        if (scale > 18 && scaletimes < 0) {
             scale -= 2;
             offset.y -= 2;
             bgscale -= 0.01f;
