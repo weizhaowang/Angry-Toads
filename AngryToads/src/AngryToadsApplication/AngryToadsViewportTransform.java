@@ -53,7 +53,7 @@ public class AngryToadsViewportTransform {
         dtrans.rotate(angle,anchorp.x,anchorp.y);
         return dtrans;
     }
-    public void setZoomCenter(int xpos) {
+    public void setZoomCenter(float xpos) {
         this.center.x=xpos;
 
     }
@@ -149,5 +149,9 @@ public class AngryToadsViewportTransform {
     public int reportcaminitStatus()
     {
     	return this.initCamStatus;
+    }
+    public void camPoint2Bullet(Vec2 bulletPos)
+    {
+    	this.setZoomCenter(bulletPos.x);
     }
 }
