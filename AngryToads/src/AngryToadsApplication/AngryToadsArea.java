@@ -92,7 +92,7 @@ public abstract class AngryToadsArea {
 	float timeStep = 1.0f / 60.0f; // 时间步
 	int velocityIterations = 6; // 速度迭代
 	int positionIterations = 2; // 位置迭代
-	public int toadBullets，nowbullet; // 当前轮到的bird索引
+	public int toadBullets, nowbullet; // 当前轮到的bird索引
 	private final LinkedList<QueueItem> inputQueue; // 输入队列
 	private int levelNum;
 	
