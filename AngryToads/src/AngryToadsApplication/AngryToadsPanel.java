@@ -101,6 +101,7 @@ class AngryToadsPanel extends JPanel {
                             System.out.println("重新游戏");
                             myController.restart();
                         }
+                        gameOver = false;
                     }
                 }
             }
@@ -136,7 +137,7 @@ class AngryToadsPanel extends JPanel {
             public void mouseMoved(MouseEvent e) {
                 mark=e.getX();
                 fingerpoint.set(e.getX(), e.getY());
-                if (!isPause) {
+                if (!isPause && !gameOver) {
                     insideMenu = insideResume = false;
                     if (e.getX() > 0 && e.getX() < 50 * b1s && e.getY() > 0 && e.getY() < 50 * b1s) {
                             b1s = 1.15f;
