@@ -183,16 +183,18 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
         int TypeB = ((AngryToadsBodyInfo)(bodyB.m_userData)).getTypeNum();
         ArrayList<Body> toadList = m_stage.getToads();
         ArrayList<Body> obsList=m_stage.getObstacles();
-        
+        ArrayList<Body> birdList=m_stage.getBirds();
         for (int i = 0; i < contact.getManifold().pointCount; i++) {
         	if(impulse.normalImpulses[i]>6f){
+        		if(birdList.contains(bodyA)||birdList.contains(bodyB))
+        			new AngryToadsMusic("sfx/bird 01 collision a4.wav").start();
 	        	if(!bodyADead&&(toadList.contains(bodyA)||obsList.contains(bodyA)))
 	        		bodyADead=((AngryToadsBodyInfo)(bodyA.m_userData)).figureHealth(impulse.normalImpulses[i]);
 	        	if(!bodyBDead&&(toadList.contains(bodyB)||obsList.contains(bodyB)))
 	        		bodyBDead=((AngryToadsBodyInfo)(bodyB.m_userData)).figureHealth(impulse.normalImpulses[i]);
         	}
         }
-
+        
         
         if(bodyADead){
         	boolean hasPlayed=false;
@@ -204,7 +206,7 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
         	//stone
         	case 1:
         		if(!hasPlayed){
-        			new AngryToadsMusic("sfx/ice rock damage a1.wav").start();
+        			new AngryToadsMusic("sfx/rock damage a1.wav").start();
         			hasPlayed=true;
         		}
         	//ice
@@ -232,7 +234,7 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
         		hasPlayed=true;
         	case 1:
         		if(!hasPlayed){
-        			new AngryToadsMusic("sfx/ice rock damage a1.wav").start();
+        			new AngryToadsMusic("sfx/rock damage a1.wav").start();
         			hasPlayed=true;
         		}
         	case 2:

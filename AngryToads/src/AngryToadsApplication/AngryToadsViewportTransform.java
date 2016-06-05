@@ -16,12 +16,19 @@ public class AngryToadsViewportTransform {
     Vec2 offset=new Vec2();
     public float bgscale=1f;
     int btx=0,bty=0;
+    int initCamStatus = 0;/*0:Initial val; 1:Finished camshift to the enemy; 
+    2:Finished camshift to the sling; 3: Finished cam reset*/
+    float initScale;
+    float initOffsetx;
 
     AngryToadsViewportTransform(AngryToadsPanel v) {
         vTrans.setYFlip(true);
         vTrans.setExtents(v.getWidth()/2,v.getHeight()/2);
         center.set(v.getWidth()/2,v.getHeight()/2+170f);
         offset.set(-v.getWidth()/2,170f);
+        
+        initScale = this.scale;
+        initOffsetx = this.offset.x;
     }
 
     //Transform world position to view position
@@ -57,13 +64,13 @@ public class AngryToadsViewportTransform {
     }
 
     public void mouseWheelTransform(int xoffset,int scaletimes) {
-        if (scale < 25 && scaletimes > 0 && scale + scaletimes * 2 > 18) {
-            scale = scale + scaletimes * 2;
+        if (scale < 25 && scaletimes > 0) {
+            scale += 2;
             offset.y += 2;
             bgscale += 0.01f;
         }
-        if (scale > 18 && scaletimes < 0 && scale + scaletimes * 2 < 25) {
-            scale = scale + scaletimes * 2;
+        if (scale > 15 && scaletimes < 0) {
+            scale -= 2;
             offset.y -= 2;
             bgscale -= 0.01f;
         }
@@ -85,5 +92,62 @@ public class AngryToadsViewportTransform {
                 offset.x-=3;
         }
 
+    }
+    //initial camera motions
+    public void ZoomInandOut(int scaletimes) 
+    {
+    	if (scale < 25 && scaletimes > 0) 
+    	{
+            scale += 0.1f;
+            offset.y += 0.1f;
+            bgscale += 0.001f;
+        }
+        if (scale > 15 && scaletimes < 0) 
+        {
+            scale -= 0.1f;
+            offset.y -= 0.1f;
+            bgscale -= 0.001f;
+        }
+    }
+    
+    public void camPoint2Enemy()
+    {
+    	float enemyPosx = -400.0f; //According to the value given in ToadsLevel.java
+    	float dist = offset.x + center.x - enemyPosx;
+    	offset.x -= dist * 0.1f;
+    	dist = dist > 0.0f? dist : -dist;
+    	if(dist < 1.0f)
+    		this.initCamStatus = 1;
+    	else
+    	{
+    		this.ZoomInandOut(1);
+    	}
+    }
+    public void camPoint2Sling()
+    {
+    	float slingPosx = 400.0f; //According to the value given in ToadsLevel.java
+    	float dist = offset.x + center.x - slingPosx;
+    	offset.x -= dist * 0.1f;
+    	float absDist = dist > 0.0f? dist : -dist;
+    	if(absDist < 1.0f)
+    		this.initCamStatus = 2;
+    }
+    public void camReset()
+    {
+    	float diff = (this.scale - this.initScale);
+    	diff = diff > 0.0f ? diff : -diff;
+    	if(diff < 0.1f)
+    		this.ZoomInandOut(-1);
+    	
+    	float dist = offset.x - this.initOffsetx;
+    	offset.x -= dist*0.1f;
+    	dist = dist > 0.0f? dist : -dist;
+    	
+    	if(diff < 0.1f && dist < 1.0f)
+    		this.initCamStatus = 3;
+    }
+    public int reportcaminitStatus()
+    {
+    	return this.initCamStatus;
     }
 }

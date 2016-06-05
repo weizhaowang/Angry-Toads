@@ -26,7 +26,7 @@ public class AngryToadsMain {
     public static void main(String[] args) throws InterruptedException, IOException{// NoPlayerException, CannotRealizeException {
 
 
-        ToadsLevel ts=new ToadsLevel();
+        AngryToadsArea ts=new ToadsLevel(0).createLevel();
 
         AngryToadsMenu menu=new AngryToadsMenu();
         AngryToadsPanel game=new AngryToadsPanel();
@@ -38,7 +38,7 @@ public class AngryToadsMain {
         AngryToadsPanelController pc=new AngryToadsPanelController(mainframe.getLayoutpanel(),mc,tc);
 
         ts.getWorld().setContactListener(tc);
-
+        
         Thread switcher=new Thread(pc);
 
         switcher.start();
