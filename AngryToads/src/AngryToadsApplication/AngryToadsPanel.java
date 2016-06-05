@@ -11,6 +11,9 @@ import org.jbox2d.common.Vec2;
  */
 class AngryToadsPanel extends JPanel {
 
+    public boolean gameOver = false; // 设置此为true以显示游戏结束画面
+    public boolean hasWin = false; // 此变量标示玩家输赢,仅在gameOver为true时起作用
+
     private final AngryToadsDraw myDraw;
     private  AngryToadsController myController=null;
 
@@ -213,7 +216,14 @@ class AngryToadsPanel extends JPanel {
             // 游戏暂停四个字
             dbg.setColor(Color.WHITE);
             dbg.setFont(new Font("微软雅黑", Font.PLAIN, 25));
-            dbg.drawString("游戏暂停", centerX - 50, centerY - 50);
+            String info = "游戏暂停";
+            if (insideResume) {
+                info = "继续游戏";
+            }
+            if (insideMenu) {
+                info = "回主菜单";
+            }
+            dbg.drawString(info, centerX - 50, centerY - 50);
 
             // 两个按钮
             menuX = centerX - 50 - (int)(25 * b3s);
