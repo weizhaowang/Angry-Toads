@@ -21,7 +21,7 @@ class AngryToadsPanel extends JPanel {
     private Image dbImage = null;
     private ImageIcon bg=null;
     private ImageIcon pausebutton=new ImageIcon("src/AngryToadsImagePack/pause.png");
-    private ImageIcon resumebutton=new ImageIcon("src/AngryToadsImagePack/resume.png");
+    private ImageIcon restartbutton=new ImageIcon("src/AngryToadsImagePack/resume.png");
     ImageIcon finger=new ImageIcon("src/AngryToadsImagePack/Finger.png");
 
     private boolean dragflag=false,inside1=false,inside2=false;
@@ -57,12 +57,13 @@ class AngryToadsPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(inside1) {
+                    System.out.println("游戏暂停");
                     myController.stop=true;
                 }
                 if(inside2) {
-                    myController.stop=false;
+                    System.out.println("重新游戏");
+                    myController.restart();
                 }
-
             }
 
             @Override
@@ -169,7 +170,7 @@ class AngryToadsPanel extends JPanel {
 
 
         dbg.drawImage(pausebutton.getImage(), 0,0, (int) (50*b1s), (int) (50*b1s),null);
-        dbg.drawImage(resumebutton.getImage(),55,0, (int) (50*b2s), (int) (50*b2s),null);
+        dbg.drawImage(restartbutton.getImage(),55,0, (int) (50*b2s), (int) (50*b2s),null);
 
         return true;
     }
