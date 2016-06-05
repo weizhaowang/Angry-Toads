@@ -28,9 +28,10 @@ class AngryToadsPanel extends JPanel {
     private ImageIcon pausebutton = new ImageIcon("src/AngryToadsImagePack/pause.png");
     private ImageIcon continueButton = new ImageIcon("src/AngryToadsImagePack/continue.png");
     private ImageIcon menuButton = new ImageIcon("src/AngryToadsImagePack/menu.png");
-    private ImageIcon restartbutton = new ImageIcon("src/AngryToadsImagePack/resume.png");
+    private ImageIcon restartbutton = new ImageIcon("src/AngryToadsImagePack/restart.png");
+    private ImageIcon restartClearButton = new ImageIcon("src/AngryToadsImagePack/restart-clear.png");
     private ImageIcon nextLevelButton = new ImageIcon("src/AngryToadsImagePack/nextLevel.png");
-    ImageIcon finger=new ImageIcon("src/AngryToadsImagePack/Finger.png");
+    ImageIcon finger = new ImageIcon("src/AngryToadsImagePack/Finger.png");
 
     private boolean dragflag = false, insidePause = false, insideRestart = false, insideMenu = false, insideResume = false;
     private boolean flag=false;
@@ -245,7 +246,7 @@ class AngryToadsPanel extends JPanel {
                     info = "继续游戏";
                 } else if (gameOver) {
                     if (hasWin) {
-                        info = "玩下一关";
+                        info = "下一关卡";
                     } else {
                         info = "重玩此关";
                     }
@@ -271,7 +272,7 @@ class AngryToadsPanel extends JPanel {
                 if (hasWin) {
                     dbg.drawImage(nextLevelButton.getImage(), resumeX, resumeY, resumeW, resumeH, null);
                 } else {
-                    dbg.drawImage(continueButton.getImage(), resumeX, resumeY, resumeW, resumeH, null);
+                    dbg.drawImage(restartClearButton.getImage(), resumeX, resumeY, resumeW, resumeH, null);
                 }
             }
         }
