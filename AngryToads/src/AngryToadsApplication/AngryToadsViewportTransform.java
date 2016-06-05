@@ -69,7 +69,7 @@ public class AngryToadsViewportTransform {
             offset.y += 2;
             bgscale += 0.01f;
         }
-        if (scale > 18 && scaletimes < 0) {
+        if (scale > 15 && scaletimes < 0) {
             scale -= 2;
             offset.y -= 2;
             bgscale -= 0.01f;
@@ -114,7 +114,7 @@ public class AngryToadsViewportTransform {
     {
     	float enemyPosx = -400.0f; //According to the value given in ToadsLevel.java
     	float dist = offset.x + center.x - enemyPosx;
-    	offset.x -= dist * 0.1f;
+    	offset.x -= dist * 0.05f;
     	dist = dist > 0.0f? dist : -dist;
     	if(dist < 1.0f)
     		this.initCamStatus = 1;
@@ -127,7 +127,7 @@ public class AngryToadsViewportTransform {
     {
     	float slingPosx = 400.0f; //According to the value given in ToadsLevel.java
     	float dist = offset.x + center.x - slingPosx;
-    	offset.x -= dist * 0.1f;
+    	offset.x -= dist * 0.05f;
     	float absDist = dist > 0.0f? dist : -dist;
     	if(absDist < 1.0f)
     		this.initCamStatus = 2;
@@ -136,7 +136,7 @@ public class AngryToadsViewportTransform {
     {
     	float diff = (this.scale - this.initScale);
     	diff = diff > 0.0f ? diff : -diff;
-    	if(diff < 0.1f)
+    	if(diff > 0.1f)
     		this.ZoomInandOut(-1);
     	
     	float dist = offset.x - this.initOffsetx;
