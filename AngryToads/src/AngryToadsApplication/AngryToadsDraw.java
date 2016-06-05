@@ -32,7 +32,7 @@ public class AngryToadsDraw  {
     ImageIcon grass = new ImageIcon("src/AngryToadsImagePack/grass.png");
     ImageIcon planet = new ImageIcon("src/AngryToadsImagePack/planet.png");
     ImageIcon sling = new ImageIcon("src/AngryToadsImagePack/slingstick.png");
-    ImageIcon trackImage=new ImageIcon("src/AngryToadsImagePack/BlueBird.png");//track图片
+    ImageIcon trackImage=new ImageIcon("src/AngryToadsImagePack/trace.png");//track图片
 
     AngryToadsDraw(AngryToadsPanel v) {
         contactpoint = new LinkedList<Vec2>();
