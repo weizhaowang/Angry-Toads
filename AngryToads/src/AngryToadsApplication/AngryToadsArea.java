@@ -11,6 +11,8 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.joints.*;
 
+import AngryToadsCharacters.AngryToadsModel;
+
 
 
 /**
@@ -129,7 +131,6 @@ public abstract class AngryToadsArea {
 
 				attach = (WeldJoint) this.getWorld().createJoint(attachDef);
 				duration = 0;
-
 			}
 
 		}
@@ -231,8 +232,18 @@ public abstract class AngryToadsArea {
 			sworld.destroyJoint(mouseJoint);
 			new AngryToadsMusic("sfx/bird 01 flying.wav").start();
 			mouseJoint = null;
-			if (toadBullets < birdList.size() - 1)
-				toadBullets++;
+/*			if (toadBullets < birdList.size() - 1)
+				toadBullets++;*/
+			toadBullets ++;
+			
+			//此处加入gameOver的处理
+			//当前的处理是无限续命
+			if(toadBullets >= birdList.size()){
+				System.out.println("birdList数组已经越界");
+				Body newBird = new AngryToadsModel().createBody(this.sworld, 1, new Vec2(2f, 2.5f));
+				birdList.add(newBird);
+			}
+			
 			releasetime = System.currentTimeMillis();
 
 		}
