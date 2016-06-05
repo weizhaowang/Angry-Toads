@@ -32,6 +32,7 @@ public class AngryToadsDraw  {
     ImageIcon grass = new ImageIcon("src/AngryToadsImagePack/grass.png");
     ImageIcon planet = new ImageIcon("src/AngryToadsImagePack/planet.png");
     ImageIcon sling = new ImageIcon("src/AngryToadsImagePack/slingstick.png");
+    ImageIcon trackImage=new ImageIcon("src/AngryToadsImagePack/BlueBird.png");//track图片
 
     AngryToadsDraw(AngryToadsPanel v) {
         contactpoint = new LinkedList<Vec2>();
@@ -49,7 +50,7 @@ public class AngryToadsDraw  {
         obstacles = s.getObstacles();
     }
 
-    public synchronized void drawStage() {
+    public synchronized void drawStage(int birdIndex,ArrayList<Vec2>track) {
     	//Initialize cam
     	int initCamFlag = vpt.reportcaminitStatus();
     	if(initCamFlag != 3)
@@ -63,6 +64,8 @@ public class AngryToadsDraw  {
     	}
         if (viewport.render()) {
             drawBackground();
+            
+            drawtrack(birdIndex,track);
             drawBirds();
             drawPigs();
             drawObstacles();
@@ -131,6 +134,42 @@ public class AngryToadsDraw  {
             }
         }
 
+    }
+
+   public void drawtrack(int birdIndex,ArrayList<Vec2>track) {//画轨迹
+        if (ableToDraw() == false) {
+            return;
+        }
+        int i=0;
+        
+        Graphics2D pen = getGraphics();
+        
+        pen.setRenderingHints(rh);
+        
+        Body tempbody=this.birds.get(birdIndex);
+        
+        tempinfo = (AngryToadsBodyInfo) tempbody.getUserData();
+        
+        while(i<track.size()){	
+
+  
+        dpos = track.get(i).clone();
+        cpos = track.get(i).clone();
+        dpos.x = dpos.x -2*((AngryToadsBodyInfo) tempbody.getUserData()).getHalfwidth();
+        dpos.y = dpos.y ;
+        this.getPosToDraw(dpos, dpos);
+        this.getPosToDraw(cpos, cpos);
+
+      
+        height = (int) (tempinfo.getHalfheight() * 2 * vpt.scale);
+        width = (int) (tempinfo.getHalfwidth() * 2 * vpt.scale);
+
+        if(i%2==0)pen.drawImage(trackImage.getImage(),(int)dpos.x, (int) dpos.y, (int)(width/1.4),(int) (height/1.4), null);
+        else pen.drawImage(trackImage.getImage(),(int)dpos.x, (int) dpos.y, (int)(width/1.2),(int) (height/1.2), null);
+        transform.setToIdentity();
+        i++;}
+ 
+        
     }
 
     private void drawPigs() {
