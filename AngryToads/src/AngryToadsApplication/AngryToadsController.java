@@ -19,6 +19,7 @@ import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.contacts.Contact;
 
 import AngryToadsCharacters.AngryToadsBodyInfo;
+import AngryToadsLevel.ToadsLevel;
 
 public class AngryToadsController extends MouseAdapter implements Runnable, MouseMotionListener, ContactListener {
 
@@ -42,18 +43,21 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
     }
 
     @Override
-    public void run() {
+  public void run() {
         while (true) {
             try {
                 while (!stop) {
-                    m_stage.update();
-                    drawer.drawStage();
+                	 m_stage.update();
+                	Body nowbird=m_stage.birdList.get(m_stage.nowbullet);
+                   m_stage.distance+=nowbird.getLinearVelocity().length();//根据一定距离画飞行轨迹
+                  if(m_stage.distance/150>m_stage.track.size()) m_stage.track.add(new Vec2(nowbird.getPosition()));
+                    drawer.drawStage(m_stage.nowbullet,m_stage.track); 
                     try {
-                        Thread.sleep(5);
+                    	 Thread.sleep(5);
                     } catch (InterruptedException ex) {
                     }
                 }
-                drawer.drawStage();
+                drawer.drawStage(m_stage.nowbullet,m_stage.track);
                 Thread.sleep(12);
             } catch (InterruptedException ex) {
                 Logger.getLogger(AngryToadsController.class.getName()).log(Level.SEVERE, null, ex);
@@ -71,7 +75,19 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
 
     public void restart() {
         // TODO: Restart
+    	int temp=this.m_stage.getLevelNum();
+    	this.m_stage=null;
+    	this.m_stage=new ToadsLevel(temp).createLevel();
+    	this.m_stage.initStage();
+    	this.m_stage.getWorld().setContactListener(this);
+    	drawer.setStage(this.m_stage);
+    	
     }
+
+    public void backToMenu () {
+        // TODO: Back To Menu
+    }
+
 
     public void resume() {
         if (!isPainting()) {

@@ -70,6 +70,7 @@ public class AngryToadsMenu extends JPanel{
             dbg = (Graphics2D) dbImage.getGraphics();
 
         }
+        dbg.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); // 平滑处理
         dbg.setColor(Color.DARK_GRAY);
         rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         dbg.drawImage(background.getImage(), 0, 0, 1024,600,null);

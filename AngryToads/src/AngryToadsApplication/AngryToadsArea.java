@@ -77,12 +77,14 @@ public abstract class AngryToadsArea {
 
 	private MouseJoint mouseJoint;
 	private Vec2 mouseWorld = new Vec2();
-	public final World sworld; // 世界对象
+	public World sworld; // 世界对象
 	private final Vec2 gravity; // 重力向量
 	public Vec2 slingAnchor; // 弹弓位置
 	public ArrayList<Body> birdList; // 所有bird
 	public ArrayList<Body> obList; // 所有障碍物
 	public ArrayList<Body> toadList, sling; // 所有toad，弹弓吊绳
+	public ArrayList<Vec2>track=new ArrayList<Vec2>();//track
+	public double distance=0;//计算鸟行走距离，和track有关
 	public WeldJoint attach; // 焊接关节，描述bird与弹弓的接触
 	public WeldJointDef attachDef; // 定义焊接关节
 	public Body ground; // 地面
@@ -90,9 +92,10 @@ public abstract class AngryToadsArea {
 	float timeStep = 1.0f / 60.0f; // 时间步
 	int velocityIterations = 6; // 速度迭代
 	int positionIterations = 2; // 位置迭代
-	public int toadBullets; // 当前轮到的bird索引
+	public int toadBullets, nowbullet; // 当前轮到的bird索引
 	private final LinkedList<QueueItem> inputQueue; // 输入队列
-
+	private int levelNum;
+	
 	public AngryToadsArea() {
 		gravity = new Vec2(0, -10f); // 重力
 		inputQueue = new LinkedList<QueueItem>();
@@ -104,7 +107,13 @@ public abstract class AngryToadsArea {
 		slingAnchor = new Vec2(); // 弹弓位置
 
 	}
-
+	
+	public void setLevelNum(int num){
+		this.levelNum=num;
+	}
+	public int getLevelNum(){
+		return this.levelNum;
+	}
 	abstract public void initStage();
 
 	long endtime = 0;
@@ -234,8 +243,11 @@ public abstract class AngryToadsArea {
 			mouseJoint = null;
 /*			if (toadBullets < birdList.size() - 1)
 				toadBullets++;*/
+			nowbullet=toadBullets;
 			toadBullets ++;
-			
+			track.clear();
+			track=new ArrayList<Vec2>();
+			distance=0;//需要给新的鸟画轨迹时，置0
 			//此处加入gameOver的处理
 			//当前的处理是无限续命
 			if(toadBullets >= birdList.size()){
