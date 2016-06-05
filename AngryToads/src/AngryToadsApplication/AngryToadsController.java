@@ -163,7 +163,7 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
         // throw new UnsupportedOperationException("Not supported yet.");
     }
  
-    Fixture fix ;
+//    Fixture fix ;
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
     	/*
@@ -252,7 +252,7 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
         	bodyB.setActive(false);
         	m_stage.getWorld().destroyBody(bodyB);
         }
-
+/*
         if (contact.m_fixtureA.m_filter.groupIndex == -1 || contact.m_fixtureB.m_filter.groupIndex == -1) {
             fix = contact.m_fixtureA.m_filter.groupIndex == -1?contact.m_fixtureA:contact.m_fixtureB;
 
@@ -261,9 +261,9 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
                 if (impulse.normalImpulses[i] > 0.8) {
                     //System.out.print("pushing point \n");
                     drawer.pushContactPoint(fix.m_body.getPosition());
-    			   /*try {
+    			   try {
                         //music.birdScream();
-                    } catch (IOException ex) {                    }*/
+                    } catch (IOException ex) {                    }
                 }
             }
         }
@@ -273,14 +273,14 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
                 //System.out.print("wood impulse : "+impulse.normalImpulses[i]+"\n");
                 if (impulse.normalImpulses[i] > 3.1f) {
                     //System.out.print("wood impulse : "+impulse.normalImpulses[i]+"\n");
-                    /*try {
+                    try {
                         //music.woodCollision();
                     } catch (IOException ex) {
-                    }*/
+                    }
                     return;
                 }
             }
         }
-
+*/
     }
 }

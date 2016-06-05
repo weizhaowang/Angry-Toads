@@ -37,7 +37,7 @@ public class AngryToadsEnemy extends AngryToadsCharacter {
 				this.enemyShape.m_radius=0.7f;
 				this.getCharacterinfo().setTypeNum(10);
 				this.getCharacterinfo().setName("toad");
-				this.getCharacterinfo().setHealth(15f);
+				this.getCharacterinfo().setHealth(2f);
 				this.getCharacterinfo().setAppearance(toad.getImage());
 				this.getCharacterfixdef().userData = this.getCharacterinfo();
 				enemy.m_userData = this.getCharacterinfo();
