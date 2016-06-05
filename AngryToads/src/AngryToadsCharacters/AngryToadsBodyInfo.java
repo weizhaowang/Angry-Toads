@@ -50,9 +50,9 @@ public class AngryToadsBodyInfo {
 	@SuppressWarnings("serial")
 	ArrayList<ImageIcon> toad = new ArrayList<ImageIcon>() {
 		{
-			add(new ImageIcon("src/AngryToadsImagePack/AngryToad"));
-			add(new ImageIcon("src/AngryToadsImagePack/AngryToad-Explode"));
-			add(new ImageIcon("src/AngryToadsImagePack/AngryToad-Splited"));
+			add(new ImageIcon("src/AngryToadsImagePack/AngryToad.png"));
+			add(new ImageIcon("src/AngryToadsImagePack/AngryToad-Explode.png"));
+			add(new ImageIcon("src/AngryToadsImagePack/AngryToad-Splited.png"));
 		}
 	};
 
@@ -63,8 +63,8 @@ public class AngryToadsBodyInfo {
 	float iceThreshold2 = 4f;
 	float stoneThreshold = 14f;
 	float stoneThreshold2 = 7f;
-	float toadThreshold = 10f;
-	float toadThreshold2 = 5f;
+	float toadThreshold = 1.5f;
+	float toadThreshold2 = 1f;
 
 	AngryToadsBodyInfo(String image, float hp, String name) {
 		appearance = new ImageIcon(image);
