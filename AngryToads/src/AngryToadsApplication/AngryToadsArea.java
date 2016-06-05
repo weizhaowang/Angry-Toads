@@ -77,7 +77,7 @@ public abstract class AngryToadsArea {
 
 	private MouseJoint mouseJoint;
 	private Vec2 mouseWorld = new Vec2();
-	public final World sworld; // 世界对象
+	public World sworld; // 世界对象
 	private final Vec2 gravity; // 重力向量
 	public Vec2 slingAnchor; // 弹弓位置
 	public ArrayList<Body> birdList; // 所有bird
@@ -92,7 +92,8 @@ public abstract class AngryToadsArea {
 	int positionIterations = 2; // 位置迭代
 	public int toadBullets; // 当前轮到的bird索引
 	private final LinkedList<QueueItem> inputQueue; // 输入队列
-
+	private int levelNum;
+	
 	public AngryToadsArea() {
 		gravity = new Vec2(0, -10f); // 重力
 		inputQueue = new LinkedList<QueueItem>();
@@ -104,7 +105,13 @@ public abstract class AngryToadsArea {
 		slingAnchor = new Vec2(); // 弹弓位置
 
 	}
-
+	
+	public void setLevelNum(int num){
+		this.levelNum=num;
+	}
+	public int getLevelNum(){
+		return this.levelNum;
+	}
 	abstract public void initStage();
 
 	long endtime = 0;
