@@ -51,20 +51,20 @@ public class AngryToadsDraw  {
     }
 
     public synchronized void drawStage(int birdIndex,ArrayList<Vec2>track) {
-    	//Initialize cam
-    	int initCamFlag = vpt.reportcaminitStatus();
-    	if(initCamFlag != 3)
-    	{
-    		switch(initCamFlag)
-    		{
-    		case 0:vpt.camPoint2Enemy();break;
-    		case 1:vpt.camPoint2Sling();break;
-    		case 2:vpt.camReset();break;
-    		}
-    	}
+        //Initialize cam
+        int initCamFlag = vpt.reportcaminitStatus();
+        if(initCamFlag != 3)
+        {
+            switch(initCamFlag)
+            {
+                case 0:vpt.camPoint2Enemy();break;
+                case 1:vpt.camPoint2Sling();break;
+                case 2:vpt.camReset();break;
+            }
+        }
         if (viewport.render()) {
             drawBackground();
-            
+
             drawtrack(birdIndex,track);
             drawBirds();
             drawPigs();
@@ -136,40 +136,37 @@ public class AngryToadsDraw  {
 
     }
 
-   public void drawtrack(int birdIndex,ArrayList<Vec2>track) {//画轨迹
+    public void drawtrack(int birdIndex,ArrayList<Vec2>track) {//画轨迹
         if (ableToDraw() == false) {
             return;
         }
         int i=0;
-        
+
         Graphics2D pen = getGraphics();
-        
+
         pen.setRenderingHints(rh);
-        
+
         Body tempbody=this.birds.get(birdIndex);
-        
+
         tempinfo = (AngryToadsBodyInfo) tempbody.getUserData();
-        
-        while(i<track.size()){	
 
-  
-        dpos = track.get(i).clone();
-        cpos = track.get(i).clone();
-        dpos.x = dpos.x -2*((AngryToadsBodyInfo) tempbody.getUserData()).getHalfwidth();
-        dpos.y = dpos.y ;
-        this.getPosToDraw(dpos, dpos);
-        this.getPosToDraw(cpos, cpos);
+        while(i < track.size()) {
 
-      
-        height = (int) (tempinfo.getHalfheight() * 2 * vpt.scale);
-        width = (int) (tempinfo.getHalfwidth() * 2 * vpt.scale);
+            dpos = track.get(i).clone();
+            cpos = track.get(i).clone();
+            dpos.x = dpos.x - 2 * ((AngryToadsBodyInfo)tempbody.getUserData()).getHalfwidth();
+            this.getPosToDraw(dpos, dpos);
+            this.getPosToDraw(cpos, cpos);
 
-        if(i%2==0)pen.drawImage(trackImage.getImage(),(int)dpos.x, (int) dpos.y, (int)(width/1.4),(int) (height/1.4), null);
-        else pen.drawImage(trackImage.getImage(),(int)dpos.x, (int) dpos.y, (int)(width/1.2),(int) (height/1.2), null);
-        transform.setToIdentity();
-        i++;}
- 
-        
+            if(i % 2 == 0) {
+                pen.drawImage(trackImage.getImage(), (int) dpos.x, (int) dpos.y, 12, 12, null);
+            } else {
+                pen.drawImage(trackImage.getImage(),(int)dpos.x, (int) dpos.y, 10, 10, null);
+            }
+            transform.setToIdentity();
+            i++;
+        }
+
     }
 
     private void drawPigs() {
