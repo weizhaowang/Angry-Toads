@@ -32,6 +32,7 @@ public class AngryToadsDraw  {
     ImageIcon grass = new ImageIcon("src/AngryToadsImagePack/grass.png");
     ImageIcon planet = new ImageIcon("src/AngryToadsImagePack/planet.png");
     ImageIcon sling = new ImageIcon("src/AngryToadsImagePack/slingstick.png");
+    ImageIcon trackImage=new ImageIcon("src/AngryToadsImagePack/trace.png");//track图片
 
     AngryToadsDraw(AngryToadsPanel v) {
         contactpoint = new LinkedList<Vec2>();
@@ -49,21 +50,32 @@ public class AngryToadsDraw  {
         obstacles = s.getObstacles();
     }
 
-    public synchronized void drawStage() {
-    	//Initialize cam
-    	int initCamFlag = vpt.reportcaminitStatus();
-    	if(initCamFlag != 3)
-    	{
-    		switch(initCamFlag)
-    		{
-    		case 0:vpt.camPoint2Enemy();break;
-    		case 1:vpt.camPoint2Sling();break;
-    		case 2:vpt.camReset();break;
-    		}
-    	}
+    public synchronized void drawStage(int birdIndex,ArrayList<Vec2>track) {
+        //Initialize cam
+        int initCamFlag = vpt.reportcaminitStatus();
+        if(initCamFlag != 3)
+        {
+            switch(initCamFlag)
+            {
+                case 0:vpt.camPoint2Enemy();break;
+                case 1:vpt.camPoint2Sling();break;
+                case 2:vpt.camReset();break;
+            }
+        }
         if (viewport.render()) {
             drawBackground();
+
+            drawtrack(birdIndex,track);
             drawBirds();
+            Body bullet = stagetodraw.getBirds().get(stagetodraw.toadBullets);
+            Boolean bulletFlying = bullet.getLinearVelocity().length() > 1.0f ? true : false;
+            if(bulletFlying)
+            {
+            	Vec2 bulletPos = bullet.getPosition().clone();
+            	vpt.getWorldtoScreen(bulletPos, bulletPos);
+            	vpt.camPoint2Bullet(bulletPos);
+            }
+            
             drawPigs();
             drawObstacles();
             drawSling();
@@ -129,6 +141,39 @@ public class AngryToadsDraw  {
                     pen.setTransform(transform);
                 }
             }
+        }
+
+    }
+
+    public void drawtrack(int birdIndex,ArrayList<Vec2>track) {//画轨迹
+        if (ableToDraw() == false) {
+            return;
+        }
+        int i=0;
+
+        Graphics2D pen = getGraphics();
+
+        pen.setRenderingHints(rh);
+
+        Body tempbody=this.birds.get(birdIndex);
+
+        tempinfo = (AngryToadsBodyInfo) tempbody.getUserData();
+
+        while(i < track.size()) {
+
+            dpos = track.get(i).clone();
+            cpos = track.get(i).clone();
+            dpos.x = dpos.x - 2 * ((AngryToadsBodyInfo)tempbody.getUserData()).getHalfwidth();
+            this.getPosToDraw(dpos, dpos);
+            this.getPosToDraw(cpos, cpos);
+
+            if(i % 2 == 0) {
+                pen.drawImage(trackImage.getImage(), (int) dpos.x, (int) dpos.y, 12, 12, null);
+            } else {
+                pen.drawImage(trackImage.getImage(),(int)dpos.x, (int) dpos.y, 10, 10, null);
+            }
+            transform.setToIdentity();
+            i++;
         }
 
     }
