@@ -2,18 +2,11 @@ package AngryToadsApplication;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import javax.swing.ImageIcon;
-import org.jbox2d.callbacks.ContactImpulse;
-import org.jbox2d.callbacks.ContactListener;
-import org.jbox2d.collision.Manifold;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
-import org.jbox2d.dynamics.World;
-import org.jbox2d.dynamics.contacts.Contact;
 
 import AngryToadsCharacters.AngryToadsBodyInfo;
 
@@ -29,10 +22,10 @@ public class AngryToadsDraw  {
     Body ground;
     AngryToadsViewportTransform vpt;
     AffineTransform transform = new AffineTransform();
-    ImageIcon grass = new ImageIcon("src/AngryToadsImagePack/grass.png");
-    ImageIcon planet = new ImageIcon("src/AngryToadsImagePack/planet.png");
-    ImageIcon sling = new ImageIcon("src/AngryToadsImagePack/slingstick.png");
-    ImageIcon trackImage=new ImageIcon("src/AngryToadsImagePack/trace.png");//track图片
+    private ImageIcon grass = new ImageIcon("src/AngryToadsImagePack/grass.png");
+    private ImageIcon planet = new ImageIcon("src/AngryToadsImagePack/planet.png");
+    private ImageIcon sling = new ImageIcon("src/AngryToadsImagePack/slingstick.png");
+    private ImageIcon trackImage=new ImageIcon("src/AngryToadsImagePack/trace.png");//track图片
 
     AngryToadsDraw(AngryToadsPanel v) {
         contactpoint = new LinkedList<Vec2>();
@@ -68,7 +61,7 @@ public class AngryToadsDraw  {
             drawtrack(birdIndex,track);
             drawBirds();
             Body bullet = stagetodraw.getBirds().get(stagetodraw.toadBullets);
-            Boolean bulletFlying = bullet.getLinearVelocity().length() > 1.0f ? true : false;
+            Boolean bulletFlying = bullet.getLinearVelocity().length() > 1.0f;
             if(bulletFlying)
             {
             	Vec2 bulletPos = bullet.getPosition().clone();
@@ -285,13 +278,13 @@ public class AngryToadsDraw  {
         planetx = (int) gpos.x;
 
         for (int i = 0; i <= 6; i++) {
-            pen.drawImage(planet.getImage(), (int) planetx, (int) gpos.y - planet.getImage().getHeight(null) + 2, (int) planetwidth, (int) planetheight, null);
+            pen.drawImage(planet.getImage(), planetx, (int) gpos.y - planet.getImage().getHeight(null) + 2, (int) planetwidth, (int) planetheight, null);
             planetx += planetwidth;
         }
 
         for (int i = 0; i <= 6; i++) {
             pen.drawImage(((AngryToadsBodyInfo) ground.getUserData()).getAppearance(), (int) gpos.x, (int) gpos.y, groundwidth, groundheight, null);
-            pen.drawImage(grass.getImage(), (int) grassx, (int) gpos.y - grass.getImage().getHeight(null) + 2, (int) grasswidth, (int) grassheight, null);
+            pen.drawImage(grass.getImage(), grassx, (int) gpos.y - grass.getImage().getHeight(null) + 2, (int) grasswidth, (int) grassheight, null);
             gpos.x += groundwidth;
             grassx += grasswidth;
         }

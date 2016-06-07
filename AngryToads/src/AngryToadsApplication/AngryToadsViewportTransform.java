@@ -93,6 +93,7 @@ public class AngryToadsViewportTransform {
         }
 
     }
+
     //initial camera motions
     public void ZoomInandOut(int scaletimes) 
     {
@@ -114,7 +115,7 @@ public class AngryToadsViewportTransform {
     {
     	float enemyPosx = -400.0f; //According to the value given in ToadsLevel.java
     	float dist = offset.x + center.x - enemyPosx;
-    	offset.x -= dist * 0.05f;
+    	offset.x -= dist * 0.08f;
     	dist = dist > 0.0f? dist : -dist;
     	if(dist < 1.0f)
     		this.initCamStatus = 1;
@@ -127,7 +128,7 @@ public class AngryToadsViewportTransform {
     {
     	float slingPosx = 400.0f; //According to the value given in ToadsLevel.java
     	float dist = offset.x + center.x - slingPosx;
-    	offset.x -= dist * 0.05f;
+    	offset.x -= dist * 0.08f;
     	float absDist = dist > 0.0f? dist : -dist;
     	if(absDist < 1.0f)
     		this.initCamStatus = 2;
@@ -140,7 +141,7 @@ public class AngryToadsViewportTransform {
     		this.ZoomInandOut(-1);
     	
     	float dist = offset.x - this.initOffsetx;
-    	offset.x -= dist*0.05f;
+    	offset.x -= dist * 0.08f;
     	dist = dist > 0.0f? dist : -dist;
     	
     	if(diff < 0.1f && dist < 1.0f)

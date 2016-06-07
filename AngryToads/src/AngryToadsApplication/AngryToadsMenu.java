@@ -7,6 +7,7 @@ import org.jbox2d.common.Vec2;
 
 
 
+@SuppressWarnings("serial")
 public class AngryToadsMenu extends JPanel{
     ImageIcon background=new ImageIcon("src/AngryToadsImagePack/background1.jpg");
     ArrayList<ImageIcon> animator=new ArrayList<ImageIcon>();

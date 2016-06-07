@@ -11,8 +11,8 @@ import org.jbox2d.common.Vec2;
 
 public class AngryToadsViewFrame extends JFrame{
 
-    public int PREF_WIDTH=1000;
-    public int PREF_HEIGHT=620;
+    static public int PREF_WIDTH=1000;
+    static public int PREF_HEIGHT=620;
     private JPanel layoutpanel;
     private CardLayout layout=new CardLayout();
     @SuppressWarnings("unused")

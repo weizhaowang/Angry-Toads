@@ -19,8 +19,8 @@ class AngryToadsPanel extends JPanel {
 
     public static final int PREF_WIDTH = 1200;
     public static final int PREF_HEIGHT = 800;
-    private int centerX = 500;
-    private int centerY = 300;
+    private int centerX = AngryToadsViewFrame.PREF_WIDTH / 2;
+    private int centerY = AngryToadsViewFrame.PREF_HEIGHT / 2;
 
     private Graphics2D dbg = null;
     private Image dbImage = null;
@@ -31,7 +31,7 @@ class AngryToadsPanel extends JPanel {
     private ImageIcon restartbutton = new ImageIcon("src/AngryToadsImagePack/restart.png");
     private ImageIcon restartClearButton = new ImageIcon("src/AngryToadsImagePack/restart-clear.png");
     private ImageIcon nextLevelButton = new ImageIcon("src/AngryToadsImagePack/nextLevel.png");
-    ImageIcon finger = new ImageIcon("src/AngryToadsImagePack/Finger.png");
+    private ImageIcon finger = new ImageIcon("src/AngryToadsImagePack/Finger.png");
 
     private boolean dragflag = false, insidePause = false, insideRestart = false, insideMenu = false, insideResume = false;
     private boolean flag=false;
@@ -39,7 +39,7 @@ class AngryToadsPanel extends JPanel {
     private int lor,mark;
     private float b1s = 1f, b2s = 1f, b3s = 1f, b4s = 1f;
     private int menuX, menuY, menuW, menuH, resumeX, resumeY, resumeW, resumeH;
-    Vec2 fingerpoint=new Vec2();
+    private Vec2 fingerpoint=new Vec2();
     AngryToadsPanel() {
         super();
         myDraw=new AngryToadsDraw(this);
@@ -78,7 +78,7 @@ class AngryToadsPanel extends JPanel {
                     }
                     if (insideRestart) {
                         System.out.println("重新游戏");
-                        myController.restart();
+                        myController.restart(false);
                     }
                 }
                 if (isPause && !gameOver) {
@@ -100,10 +100,10 @@ class AngryToadsPanel extends JPanel {
                     if (insideResume) {
                         if (hasWin) {
                             System.out.println("下一关");
-                            // TODO: 下一关
+                            myController.restart(true);
                         } else {
                             System.out.println("重新游戏");
-                            myController.restart();
+                            myController.restart(false);
                         }
                         gameOver = false;
                     }
@@ -255,14 +255,18 @@ class AngryToadsPanel extends JPanel {
             resumeW = resumeH = (int)(50 * b4s);
 
             dbg.drawImage(menuButton.getImage(), menuX, menuY, menuW, menuH, null);
+            Image image = null;
             if (isPause) {
-                dbg.drawImage(continueButton.getImage(), resumeX, resumeY, resumeW, resumeH, null);
+                image = continueButton.getImage();
             } else if (gameOver) {
                 if (hasWin) {
-                    dbg.drawImage(nextLevelButton.getImage(), resumeX, resumeY, resumeW, resumeH, null);
+                    image = nextLevelButton.getImage();
                 } else {
-                    dbg.drawImage(restartClearButton.getImage(), resumeX, resumeY, resumeW, resumeH, null);
+                    image = restartClearButton.getImage();
                 }
+            }
+            if (image != null) {
+                dbg.drawImage(image, resumeX, resumeY, resumeW, resumeH, null);
             }
         }
 
