@@ -71,6 +71,7 @@ public class AngryToadsPanelController extends ComponentAdapter implements Runna
 				mainthread = 1;
 			}
 		}
+
 	}
 
 	public void displayMenu() {
