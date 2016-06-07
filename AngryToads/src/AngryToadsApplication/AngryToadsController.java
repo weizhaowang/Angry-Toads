@@ -78,9 +78,11 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
         if (nextLevel) {
             temp++;
         }
+        this.stop=true;
         this.m_stage=null;
         this.m_stage=new ToadsLevel(temp).createLevel();
         this.m_stage.initStage();
+        this.stop=false;
         this.m_stage.getWorld().setContactListener(this);
         drawer.setStage(this.m_stage);
         hasEnd = false;
