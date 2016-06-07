@@ -63,10 +63,10 @@ public class AngryToadsObstacles extends AngryToadsCharacter {
 				break;
 		/*
 		 * ice.
-		 * health is 10f.
+		 * health is 5f.
 		 */
 			case 2:
-				this.getCharacterinfo().setHealth(10f);
+				this.getCharacterinfo().setHealth(5f);
 				this.getCharacterinfo().setName("ice");
 				this.getCharacterinfo().setAppearance(this.getCharacterinfo().ice.get(0).getImage());
 				this.setCharacter(hWidth,hHeight,angle,0.8f,0.01f,0.5f);

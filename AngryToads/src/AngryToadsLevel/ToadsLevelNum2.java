@@ -29,22 +29,22 @@ public class ToadsLevelNum2 extends AngryToadsArea{
 		Vec2 pos1=new Vec2();
 		pos1.set(30f,2.8f);
 		this.obList.add(new AngryToadsObstacles().createObstacles(this.sworld, 0, pos1, 2f, 0.2f, 0));
-		this.obList.add(new AngryToadsObstacles().createObstacles(this.sworld, 0, pos.set(pos1.x-1f,pos1.y+0.5f), 0.45f, 1f, 0));
-		this.obList.add(new AngryToadsObstacles().createObstacles(this.sworld, 0, pos.set(pos1.x+1,pos1.y+0.5f), 0.45f, 1f, 0));
+		this.obList.add(new AngryToadsObstacles().createObstacles(this.sworld, 2, pos.set(pos1.x-1f,pos1.y+0.5f), 0.35f, 1, 0));
+		this.obList.add(new AngryToadsObstacles().createObstacles(this.sworld, 2, pos.set(pos1.x+1,pos1.y+0.5f), 0.35f, 1, 0));
 		
-		pos1.set(pos1.x,pos1.y+1.5f);
-		this.obList.add(new AngryToadsObstacles().createObstacles(this.sworld, 0, pos1, 2f, 0.2f, 0));
-		this.obList.add(new AngryToadsObstacles().createObstacles(this.sworld, 0, pos.set(pos1.x-1f,pos1.y+0.5f), 0.45f, 1f, 0));
-		this.obList.add(new AngryToadsObstacles().createObstacles(this.sworld, 0, pos.set(pos1.x+1,pos1.y+0.5f), 0.45f, 1f, 0));
+		pos1.set(pos1.x,pos1.y+2f);
+		this.obList.add(new AngryToadsObstacles().createObstacles(this.sworld, 2, pos1, 2f, 0.2f, 0));
+		this.obList.add(new AngryToadsObstacles().createObstacles(this.sworld, 2, pos.set(pos1.x-1f,pos1.y+0.5f), 0.35f, 1f, 0));
+		this.obList.add(new AngryToadsObstacles().createObstacles(this.sworld, 2, pos.set(pos1.x+1,pos1.y+0.5f), 0.35f, 1f, 0));
 		this.toadList.add(new AngryToadsEnemy().createEnemy(this.sworld, 0, pos.set(pos1.x,pos1.y+0.5f)));
-		pos1.set(pos1.x,pos1.y+1.5f);
+		pos1.set(pos1.x,pos1.y+2f);
 		this.obList.add(new AngryToadsObstacles().createObstacles(this.sworld, 1, pos1, 2f, 0.2f, 0));
-		this.obList.add(new AngryToadsObstacles().createObstacles(this.sworld, 2, pos.set(pos1.x-1f,pos1.y+0.5f), 0.45f, 1f, 0));
-		this.obList.add(new AngryToadsObstacles().createObstacles(this.sworld, 0, pos.set(pos1.x+1,pos1.y+0.5f), 0.45f, 1f, 0));
+		this.obList.add(new AngryToadsObstacles().createObstacles(this.sworld, 2, pos.set(pos1.x-1f,pos1.y+0.5f), 0.35f, 1f, 0));
+		this.obList.add(new AngryToadsObstacles().createObstacles(this.sworld, 0, pos.set(pos1.x+1,pos1.y+0.5f), 0.35f, 1f, 0));
 		this.toadList.add(new AngryToadsEnemy().createEnemy(this.sworld, 0, pos.set(pos1.x,pos1.y+0.5f)));
-		pos1.set(pos1.x,pos1.y+1.5f);
+		pos1.set(pos1.x,pos1.y+2f);
 		this.obList.add(new AngryToadsObstacles().createObstacles(this.sworld, 0, pos1, 2f, 0.2f, 0));
-		this.obList.add(new AngryToadsObstacles().createObstacles(this.sworld, 1, pos.set(pos1.x,pos1.y+0.5f), 1f, 1f, 0));
+		this.obList.add(new AngryToadsObstacles().createObstacles(this.sworld, 1, pos.set(pos1.x,pos1.y+0.5f), 1f, 1.5f, 0));
 		
 		pos1.set(35f,2.8f);
 		this.obList.add(new AngryToadsObstacles().createObstacles(this.sworld, 2, pos1, 0.5f, 0.5f, 0));
