@@ -19,8 +19,8 @@ class AngryToadsPanel extends JPanel {
 
     public static final int PREF_WIDTH = 1200;
     public static final int PREF_HEIGHT = 800;
-    private int centerX = 500;
-    private int centerY = 300;
+    private int centerX = AngryToadsViewFrame.PREF_WIDTH / 2;
+    private int centerY = AngryToadsViewFrame.PREF_HEIGHT / 2;
 
     private Graphics2D dbg = null;
     private Image dbImage = null;
