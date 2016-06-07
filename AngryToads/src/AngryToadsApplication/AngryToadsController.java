@@ -17,7 +17,6 @@ import org.jbox2d.callbacks.ContactListener;
 import org.jbox2d.collision.Manifold;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
-import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.contacts.Contact;
 
 import AngryToadsCharacters.AngryToadsBodyInfo;
@@ -39,7 +38,6 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
         drawer = v.getSDDraw();
         v.setStageController(this);
         m.initStage();
-        //music = mc;
         drawer.setStage(m);
         this.addListener();
 
@@ -253,36 +251,6 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
         if (birdList.size() == 0) {
             gameEnd(false);
         }
-/*
-        if (contact.m_fixtureA.m_filter.groupIndex == -1 || contact.m_fixtureB.m_filter.groupIndex == -1) {
-            fix = contact.m_fixtureA.m_filter.groupIndex == -1?contact.m_fixtureA:contact.m_fixtureB;
-
-            for (int i = 0; i < contact.getManifold().pointCount; i++) {
-
-                if (impulse.normalImpulses[i] > 0.8) {
-                    //System.out.print("pushing point \n");
-                    drawer.pushContactPoint(fix.m_body.getPosition());
-    			   try {
-                        //music.birdScream();
-                    } catch (IOException ex) {                    }
-                }
-            }
-        }
-        if (contact.m_fixtureA.m_filter.groupIndex == 1 || contact.m_fixtureB.m_filter.groupIndex == 1) {
-            // System.out.print(" impulse point count  : "+impulse.normalImpulses.length+"\n");
-            for (int i = 0; i < contact.getManifold().pointCount; i++) {
-                //System.out.print("wood impulse : "+impulse.normalImpulses[i]+"\n");
-                if (impulse.normalImpulses[i] > 3.1f) {
-                    //System.out.print("wood impulse : "+impulse.normalImpulses[i]+"\n");
-                    try {
-                        //music.woodCollision();
-                    } catch (IOException ex) {
-                    }
-                    return;
-                }
-            }
-        }
-*/
     }
 
     private void gameEnd(boolean win) {
@@ -290,6 +258,7 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
             return;
         }
         hasEnd = true;
+        final boolean hasWin=win;
         System.out.println("游戏结束");
         if (win) {
             new AngryToadsMusic("sfx/level clear military a1.wav").start();
@@ -300,8 +269,8 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
             @Override
             public void run() {
                 m_view.gameOver = true;
-                m_view.hasWin = win;
-                if (win) {
+                m_view.hasWin = hasWin;
+                if (hasWin) {
                     new AngryToadsMusic("music/level_complete.wav").start();
                 }
             }

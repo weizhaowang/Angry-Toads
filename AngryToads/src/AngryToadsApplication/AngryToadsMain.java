@@ -1,19 +1,6 @@
 package AngryToadsApplication;
 
-import java.awt.CardLayout;
-import java.awt.Dimension;
-import java.awt.Image;
 import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-//import javax.media.CannotRealizeException;
-//import javax.media.NoPlayerException;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 import AngryToadsLevel.ToadsLevel;
 
