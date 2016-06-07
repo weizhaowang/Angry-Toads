@@ -56,8 +56,8 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
                     }
                     drawer.drawStage(m_stage.nowbullet,m_stage.track);
                     Thread.sleep(5);
+                    //drawer.drawStage(m_stage.nowbullet,m_stage.track);
                 }
-                drawer.drawStage(m_stage.nowbullet,m_stage.track);
                 Thread.sleep(12);
             } catch (InterruptedException ex) {
                 Logger.getLogger(AngryToadsController.class.getName()).log(Level.SEVERE, null, ex);
