@@ -273,7 +273,10 @@ public class AngryToadsDraw  {
 
         groundwidth = (int) ((((AngryToadsBodyInfo) ground.getUserData()).getAppearance().getWidth(null) + (vpt.scale - 18f) * 5) / 1.6f);
         groundheight = (int) (groundwidth * (190 / 334f));
-
+        
+        gpos.x = 0;
+        gpos.y = gpos.y -7f;
+        
         grassx = (int) gpos.x;
         planetx = (int) gpos.x;
 
