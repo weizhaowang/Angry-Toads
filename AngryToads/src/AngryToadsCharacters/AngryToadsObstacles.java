@@ -39,10 +39,10 @@ public class AngryToadsObstacles extends AngryToadsCharacter {
 		switch (type) {
 		/*
 		 * wood.
-		 * health is 15f.
+		 * health is 5f.
 		 */
 			case 0:
-				this.getCharacterinfo().setHealth(15f);
+				this.getCharacterinfo().setHealth(5f);
 				this.getCharacterinfo().setName("wood");
 				this.getCharacterinfo().setAppearance(this.getCharacterinfo().wood.get(0).getImage());
 				this.setCharacter(hWidth,hHeight,angle,1f,0.1f,0.7f);
@@ -63,10 +63,10 @@ public class AngryToadsObstacles extends AngryToadsCharacter {
 				break;
 		/*
 		 * ice.
-		 * health is 5f.
+		 * health is 3f.
 		 */
 			case 2:
-				this.getCharacterinfo().setHealth(5f);
+				this.getCharacterinfo().setHealth(3f);
 				this.getCharacterinfo().setName("ice");
 				this.getCharacterinfo().setAppearance(this.getCharacterinfo().ice.get(0).getImage());
 				this.setCharacter(hWidth,hHeight,angle,0.8f,0.01f,0.5f);
