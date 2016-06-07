@@ -54,6 +54,10 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
                     if(m_stage.distance/150 > m_stage.track.size()) {
                         m_stage.track.add(new Vec2(nowbird.getPosition()));
                     }
+                    if(m_stage.gameOver){
+                    	stop = true;
+                    	this.gameEnd(false);
+                    }
                     drawer.drawStage(m_stage.nowbullet,m_stage.track);
                     Thread.sleep(5);
                     //drawer.drawStage(m_stage.nowbullet,m_stage.track);
@@ -246,12 +250,8 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
             body.setActive(false);
             m_stage.getWorld().destroyBody(body);
         }
-
         if (toadList.size() == 0) {
-            gameEnd(true);
-        }
-        if (birdList.size() == 0) {
-            gameEnd(false);
+        	gameEnd(true);
         }
     }
 
