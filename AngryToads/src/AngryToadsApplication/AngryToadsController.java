@@ -8,6 +8,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jbox2d.callbacks.ContactImpulse;
@@ -29,6 +31,7 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
     // private final MusicController music;
     Thread gamethread;
     boolean stop = true;
+    private boolean hasEnd = false;
 
     AngryToadsController(AngryToadsArea m, AngryToadsPanel v){//, MusicController mc) {
         this.m_stage = m;
@@ -43,17 +46,17 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
     }
 
     @Override
-  public void run() {
+    public void run() {
         while (true) {
             try {
                 while (!stop) {
-                	 m_stage.update();
-                	Body nowbird=m_stage.birdList.get(m_stage.nowbullet);
-                   m_stage.distance+=nowbird.getLinearVelocity().length();//根据一定距离画飞行轨迹
-                  if(m_stage.distance/150>m_stage.track.size()) m_stage.track.add(new Vec2(nowbird.getPosition()));
-                    drawer.drawStage(m_stage.nowbullet,m_stage.track); 
+                    m_stage.update();
+                    Body nowbird=m_stage.birdList.get(m_stage.nowbullet);
+                    m_stage.distance+=nowbird.getLinearVelocity().length();//根据一定距离画飞行轨迹
+                    if(m_stage.distance/150>m_stage.track.size()) m_stage.track.add(new Vec2(nowbird.getPosition()));
+                    drawer.drawStage(m_stage.nowbullet,m_stage.track);
                     try {
-                    	 Thread.sleep(5);
+                        Thread.sleep(5);
                     } catch (InterruptedException ex) {
                     }
                 }
@@ -73,15 +76,17 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
         }
     }
 
-    public void restart() {
-        // TODO: Restart
-    	int temp=this.m_stage.getLevelNum();
-    	this.m_stage=null;
-    	this.m_stage=new ToadsLevel(temp).createLevel();
-    	this.m_stage.initStage();
-    	this.m_stage.getWorld().setContactListener(this);
-    	drawer.setStage(this.m_stage);
-    	
+    public void restart(boolean nextLevel) {
+        int temp=this.m_stage.getLevelNum();
+        if (nextLevel) {
+            temp++;
+        }
+        this.m_stage=null;
+        this.m_stage=new ToadsLevel(temp).createLevel();
+        this.m_stage.initStage();
+        this.m_stage.getWorld().setContactListener(this);
+        drawer.setStage(this.m_stage);
+        hasEnd = false;
     }
 
     public void backToMenu () {
@@ -176,8 +181,8 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
     public void preSolve(Contact contact, Manifold oldManifold) {
         // throw new UnsupportedOperationException("Not supported yet.");
     }
- 
-//    Fixture fix ;
+
+    //    Fixture fix ;
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
     	/*
@@ -188,9 +193,9 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
     	 * m_stage.getWorld().distroyBody();
     	 * body.setActive(true/false);
     	 */
-    	
-    	boolean bodyADead=false;
-    	boolean bodyBDead=false;
+
+        boolean bodyADead=false;
+        boolean bodyBDead=false;
         Body bodyA = contact.m_fixtureA.getBody();
         Body bodyB = contact.m_fixtureB.getBody();
         int TypeA = ((AngryToadsBodyInfo)(bodyA.m_userData)).getTypeNum();
@@ -199,72 +204,55 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
         ArrayList<Body> obsList=m_stage.getObstacles();
         ArrayList<Body> birdList=m_stage.getBirds();
         for (int i = 0; i < contact.getManifold().pointCount; i++) {
-        	if(impulse.normalImpulses[i]>6f){
-        		if(birdList.contains(bodyA)||birdList.contains(bodyB))
-        			new AngryToadsMusic("sfx/bird 01 collision a4.wav").start();
-	        	if(!bodyADead&&(toadList.contains(bodyA)||obsList.contains(bodyA)))
-	        		bodyADead=((AngryToadsBodyInfo)(bodyA.m_userData)).figureHealth(impulse.normalImpulses[i]);
-	        	if(!bodyBDead&&(toadList.contains(bodyB)||obsList.contains(bodyB)))
-	        		bodyBDead=((AngryToadsBodyInfo)(bodyB.m_userData)).figureHealth(impulse.normalImpulses[i]);
-        	}
+            if(impulse.normalImpulses[i]>6f){
+                if(birdList.contains(bodyA)||birdList.contains(bodyB))
+                    new AngryToadsMusic("sfx/bird 01 collision a4.wav").start();
+                if(!bodyADead&&(toadList.contains(bodyA)||obsList.contains(bodyA)))
+                    bodyADead=((AngryToadsBodyInfo)(bodyA.m_userData)).figureHealth(impulse.normalImpulses[i]);
+                if(!bodyBDead&&(toadList.contains(bodyB)||obsList.contains(bodyB)))
+                    bodyBDead=((AngryToadsBodyInfo)(bodyB.m_userData)).figureHealth(impulse.normalImpulses[i]);
+            }
         }
-        
-        
-        if(bodyADead){
-        	boolean hasPlayed=false;
-        	switch(TypeA){
-        	//wood
-        	case 0:
-        		new AngryToadsMusic("sfx/wood destroyed a1.wav").start();
-        		hasPlayed=true;
-        	//stone
-        	case 1:
-        		if(!hasPlayed){
-        			new AngryToadsMusic("sfx/rock damage a1.wav").start();
-        			hasPlayed=true;
-        		}
-        	//ice
-        	case 2:
-        		if(!hasPlayed)
-        			new AngryToadsMusic("sfx/ice light collision a8.wav").start();
-        		if(obsList.contains(bodyA))
-        			obsList.remove(bodyA);
-        		break;
-        	//toad
-        	case 10:
-        		new AngryToadsMusic("sfx/piglette destroyed.wav").start();
-        		if(toadList.contains(bodyA))
-        			toadList.remove(bodyA);
-        		break;
-        	}
-        	bodyA.setActive(false);
-        	m_stage.getWorld().destroyBody(bodyA);
+
+
+        if(bodyADead || bodyBDead) {
+            boolean hasPlayed=false;
+            int type = bodyADead ? TypeA : TypeB;
+            Body body = bodyADead ? bodyA : bodyB;
+            switch(type) {
+                //wood
+                case 0:
+                    new AngryToadsMusic("sfx/wood destroyed a1.wav").start();
+                    hasPlayed=true;
+                    //stone
+                case 1:
+                    if(!hasPlayed){
+                        new AngryToadsMusic("sfx/rock damage a1.wav").start();
+                        hasPlayed=true;
+                    }
+                    //ice
+                case 2:
+                    if(!hasPlayed)
+                        new AngryToadsMusic("sfx/ice light collision a8.wav").start();
+                    if(obsList.contains(body))
+                        obsList.remove(body);
+                    break;
+                //toad
+                case 10:
+                    new AngryToadsMusic("sfx/piglette destroyed.wav").start();
+                    if(toadList.contains(body))
+                        toadList.remove(body);
+                    break;
+            }
+            body.setActive(false);
+            m_stage.getWorld().destroyBody(body);
         }
-        if(bodyBDead){
-        	boolean hasPlayed=false;
-        	switch(TypeB){
-        	case 0:
-        		new AngryToadsMusic("sfx/wood destroyed a1.wav").start();
-        		hasPlayed=true;
-        	case 1:
-        		if(!hasPlayed){
-        			new AngryToadsMusic("sfx/rock damage a1.wav").start();
-        			hasPlayed=true;
-        		}
-        	case 2:
-        		if(!hasPlayed)
-        			new AngryToadsMusic("sfx/ice light collision a8.wav").start();
-        		if(obsList.contains(bodyB))
-        			obsList.remove(bodyB);
-        		break;
-        	case 10:
-        		new AngryToadsMusic("sfx/piglette destroyed.wav").start();
-        		if(toadList.contains(bodyB))
-        			toadList.remove(bodyB);
-        		break;
-        	}
-        	bodyB.setActive(false);
-        	m_stage.getWorld().destroyBody(bodyB);
+
+        if (toadList.size() == 0) {
+            gameEnd(true);
+        }
+        if (birdList.size() == 0) {
+            gameEnd(false);
         }
 /*
         if (contact.m_fixtureA.m_filter.groupIndex == -1 || contact.m_fixtureB.m_filter.groupIndex == -1) {
@@ -297,4 +285,29 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
         }
 */
     }
+
+    private void gameEnd(boolean win) {
+        if (hasEnd) {
+            return;
+        }
+        hasEnd = true;
+        System.out.println("游戏结束");
+        if (win) {
+            new AngryToadsMusic("sfx/level clear military a1.wav").start();
+        }else {
+            new AngryToadsMusic("sfx/level failed piglets a1.wav").start();
+        }
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                m_view.gameOver = true;
+                m_view.hasWin = win;
+                if (win) {
+                    new AngryToadsMusic("music/level_complete.wav").start();
+                }
+            }
+        };
+        new Timer().schedule(task, 1000); // 1s 后显示
+    }
+
 }
