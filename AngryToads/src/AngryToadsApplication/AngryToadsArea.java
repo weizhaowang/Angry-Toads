@@ -95,6 +95,8 @@ public abstract class AngryToadsArea {
 	public int toadBullets, nowbullet; // 当前轮到的bird索引
 	private final LinkedList<QueueItem> inputQueue; // 输入队列
 	private int levelNum;
+	boolean gameOver = false;
+	private boolean preGameOver = false;
 	
 	public AngryToadsArea() {
 		gravity = new Vec2(0, -10f); // 重力
@@ -130,10 +132,16 @@ public abstract class AngryToadsArea {
 			duration = (endtime - releasetime) / 1000;
 
 		}
+		int stdDuration = 3;
+		if(this.preGameOver){
+			stdDuration = 5;
+		}
 
-		if (duration > 3 && attach == null) { // 射出时间大于3秒并且当前弹弓为空，将下一个bird架上弹弓
+		if (duration > stdDuration && attach == null) { // 射出时间大于3秒并且当前弹弓为空，将下一个bird架上弹弓
 
-			if (toadBullets <= birdList.size()) { // 还有bird炮弹
+			if(this.preGameOver){
+				this.gameOver = true;
+			}else  { // 还有bird炮弹
 				birdList.get(toadBullets).setTransform(slingAnchor, 0); // 新的bird架上弹弓
 
 				attachDef.bodyB = birdList.get(toadBullets); //重新定义弹弓与新bird的接触
@@ -143,15 +151,6 @@ public abstract class AngryToadsArea {
 			}
 
 		}
-
-		/*
-		 * for(int i=0;i<birdlist.size();i++) { if(!birdlist.get(i).isAwake())
-		 * getWorld().destroyBody(birdlist.get(i)); birdlist.remove(i);
-		 *
-		 * }
-		 *
-		 */
-
 	}
 
 	public ArrayList<Body> getBirds() {
@@ -213,9 +212,8 @@ public abstract class AngryToadsArea {
 	 * @param p
 	 */
 	long releasetime = 0;
-
+	
 	public void mouseUp(Vec2 p) {
-
 		float length = 0;
 		Vec2 pos = new Vec2();
 		pos = p.sub(slingAnchor); //bird在弹弓上的拖拽位移
@@ -251,6 +249,7 @@ public abstract class AngryToadsArea {
 			//此处加入gameOver的处理
 			//当前的处理是无限续命
 			if(toadBullets >= birdList.size()){
+				this.preGameOver = true;
 				System.out.println("birdList数组已经越界");
 				Body newBird = new AngryToadsModel().createBody(this.sworld, 1, new Vec2(2f, 2.5f));
 				birdList.add(newBird);
