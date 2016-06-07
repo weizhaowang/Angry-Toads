@@ -15,7 +15,6 @@ public class ToadsLevelNum1 extends AngryToadsArea{
 	public void initStage(){
 		AngryToadsGround nGround = new AngryToadsGround();
 		AngryToadsModel nModel = new AngryToadsModel();
-		AngryToadsEnemy nEnemy = new AngryToadsEnemy();
 		
 		this.ground = nGround.createGround(this.sworld);
 		this.setLevelNum(1);
@@ -28,7 +27,7 @@ public class ToadsLevelNum1 extends AngryToadsArea{
 		
 
 		pos.set(40f, 6.7f);
-		this.toadList.add(nEnemy.createEnemy(this.sworld, 0, pos));
+		this.toadList.add(new AngryToadsEnemy().createEnemy(this.sworld, 0, pos));
 		this.obList.add(new AngryToadsObstacles().createObstacles(this.sworld, 1, pos.set(pos.x+0.3f,pos.y), 0.2f, 0.2f, 0));
 		pos.set(20f,3f);
 		this.obList.add(new AngryToadsObstacles().createObstacles(this.sworld, 1, pos, 3f, 4f, 0));
@@ -37,7 +36,7 @@ public class ToadsLevelNum1 extends AngryToadsArea{
 		this.obList.add(new AngryToadsObstacles().createObstacles(this.sworld, 2, pos, 2f, 1f, 0));
 		this.obList.add(new AngryToadsObstacles().createObstacles(this.sworld, 2, pos.set(pos.x,pos.y+1), 1, 1, 0));
 		pos.set(34f-2.5f,2.5f);
-		this.toadList.add(nEnemy.createEnemy(this.sworld, 0, pos));
+		this.toadList.add(new AngryToadsEnemy().createEnemy(this.sworld, 0, pos));
 		pos.set(38f,3.6f);
 		this.obList.add(new AngryToadsObstacles().createObstacles(this.sworld, 0, pos.set(pos.x, pos.y), 2f, 0.3f,(float) (Math.PI / 2)));
 		this.obList.add(new AngryToadsObstacles().createObstacles(this.sworld, 0, pos.set(pos.x + 4.1f, pos.y), 2f, 0.3f, (float) (Math.PI / 2)));
