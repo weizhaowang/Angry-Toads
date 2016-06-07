@@ -49,14 +49,13 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
             try {
                 while (!stop) {
                     m_stage.update();
-                    Body nowbird=m_stage.birdList.get(m_stage.nowbullet);
-                    m_stage.distance+=nowbird.getLinearVelocity().length();//根据一定距离画飞行轨迹
-                    if(m_stage.distance/150>m_stage.track.size()) m_stage.track.add(new Vec2(nowbird.getPosition()));
-                    drawer.drawStage(m_stage.nowbullet,m_stage.track);
-                    try {
-                        Thread.sleep(5);
-                    } catch (InterruptedException ex) {
+                    Body nowbird = m_stage.birdList.get(m_stage.nowbullet);
+                    m_stage.distance += nowbird.getLinearVelocity().length();//根据一定距离画飞行轨迹
+                    if(m_stage.distance/150 > m_stage.track.size()) {
+                        m_stage.track.add(new Vec2(nowbird.getPosition()));
                     }
+                    drawer.drawStage(m_stage.nowbullet,m_stage.track);
+                    Thread.sleep(5);
                 }
                 drawer.drawStage(m_stage.nowbullet,m_stage.track);
                 Thread.sleep(12);
@@ -90,7 +89,7 @@ public class AngryToadsController extends MouseAdapter implements Runnable, Mous
     }
 
     public void backToMenu () {
-        // TODO: Back To Menu
+        // TODO: 返回主菜单
     }
 
 
